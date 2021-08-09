@@ -4,6 +4,7 @@
 
 from .databasecontroller import DataBaseController
 from .playercontroller import PlayerController
+from .homepagecontroller import HomePageController
 
 
 class MasterController:
@@ -15,6 +16,7 @@ class MasterController:
         Les différents controllers du projet sont initialisés ici.
         """
         self.data_base_controller = DataBaseController(self)
+        self.home_page_controller = HomePageController(self)
         self.player_controller = PlayerController(self)
 
     def import_db_players(self):
@@ -27,6 +29,10 @@ class MasterController:
             pass
         else:
             return self.player_controller.import_data_base(dict_all_player)
+
+    def display_view_home_page(self):
+        """demande la vue de la page d'accueil au home_page_controller."""
+        return self.home_page_controller.display_view_home_page()
 
     def display_view_list_players(self):
         """Demande la vue liste des joueurs au player_controller."""

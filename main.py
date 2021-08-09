@@ -10,7 +10,7 @@ def main():
 
     init = MasterController()
     init.import_db_players()
-    init.display_view_list_players()
+    init.display_view_home_page()
 
     pass
 
