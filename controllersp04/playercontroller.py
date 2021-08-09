@@ -8,22 +8,28 @@ from viewsp04.playerview import PlayerView
 
 
 class PlayerController:
-    """Controller du projet."""
+    """Le controller des players."""
 
-    def __init__(self):
-        """Initialise le Controller."""
-
+    def __init__(self, master_controller):
+        """Initialise le player_ontroller."""
         self.view = PlayerView(self)
         self.model = Player(self)
+        self.controller = master_controller
 
+    def import_data_base(self, dict_all_player):
+        """
+        Envoi la liste de dictionnaires, contenant les players de la base de
+        données, vers le model player, afin de les ajouter à la liste des
+        players du script.
+        """
+        return self.model.import_db_players(dict_all_player)
 
     def display_view_list_players(self):
+        """Demande la vue list des players."""
         return self.view.display_view_list_players()
-        # input = PlayerView.display_view_list_players()
-        # if input == 'N':
-        #     PlayerController.new_player()
+
     def get_list_players(self, sorting_option):
-        """Récupére la liste des joueurs."""
+        """Instructions pour récupérer la liste des joueurs."""
         if sorting_option == "DEFAULT":
             return self.model.sorting_default()
         elif sorting_option == "ALPHABETICAL":
@@ -33,24 +39,9 @@ class PlayerController:
         else:
             pass
 
-    def new_player(self, sorting_option):
-        input_new_player = self.view.new_player()
-        self.model.new_player(input_new_player)
-
+    def add_player(self, sorting_option):
+        """Instructions pour l'ajout d'un player."""
+        input_new_player = self.view.add_player()
+        new_player = self.model.add_player(input_new_player)
+        self.controller.add_player(new_player)
         return self.view.display_view_list_players(sorting_option)
-
-    # def sorting_alphabetical(self):
-    #     self.model.sorting_alphabetical()
-
-
-
-
-
-
-# player1 = Players("0" ,"Geoffrey", "Llopis", "Inconnue", "M", "1100")
-
-control1 = PlayerController()
-control1.display_view_list_players()
-
-
-

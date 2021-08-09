@@ -3,6 +3,7 @@
 
 test.py
 message_for_commit.txt
+db.json
 
 # Created by https://www.toptal.com/developers/gitignore/api/pycharm,visualstudio,python,macos,linux,windows
 # Edit at https://www.toptal.com/developers/gitignore?templates=pycharm,visualstudio,python,macos,linux,windows

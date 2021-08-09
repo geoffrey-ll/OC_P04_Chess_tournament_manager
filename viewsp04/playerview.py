@@ -3,30 +3,29 @@
 
 
 class PlayerView:
-    """Ceci est ma classe ListOfPlayers."""
+    """Ceci est la vue de la liste des players du script."""
 
     def __init__(self, player_controller):
-        """Initialisation de la classe ListOfPlayers."""
+        """Initialisation de la vue de la liste des players du script."""
         self.controller = player_controller
-        # self.title1 = title_1
-        # self.title2 = title_2
-        # self.header = header
-        # self. lines_player = lines_player
-        # self. options = options
 
-    def display_title_1(self):
+    @staticmethod
+    def display_title_1():
         """Affichage du titre niveau 1."""
         display_title_1 = "Tournoi du club OpenClassRooms"
         return print("{:^202}".format(display_title_1))
 
-    def display_title_2(self):
+    @staticmethod
+    def display_title_2():
         """Affichage du titre niveau 2."""
         display_title_2 = "Liste des joueurs"
         return print("{:^202}".format(display_title_2))
 
-    def display_headers(self):
+    @staticmethod
+    def display_headers():
         """Affichage des headers."""
-        list_headers = ["Index", "First name", "Last name", "Date of birth", "Gender", "Current Elo"]
+        list_headers = ["Index", "First name", "Last name",
+                        "Date of birth", "Gender", "Current Elo"]
         print(("{0}"*133).format('-'))
         print('|', end='')
         for values in list_headers:
@@ -37,9 +36,11 @@ class PlayerView:
         """Affichage des joueurs."""
         pass
 
-    def display_options(self):
+    @staticmethod
+    def display_options():
         """Affichage des options."""
-        list_options = ["New player", "Data player", "Alphabetical sorting", "Index sorting", "Elo sorting", "Return to home page"]
+        list_options = ["New player", "Data player", "Alphabetical sorting",
+                        "Index sorting", "Elo sorting", "Return to home page"]
         print("\n[N] : {}\n".format(list_options[0]))
         print("[#] : {}".format(list_options[1]))
         print("[A] : {}".format(list_options[2]))
@@ -58,22 +59,23 @@ class PlayerView:
                 pass
             else:
                 print('|', end='')
-                # print(" {:<19} |".format(idx), end='')
                 for value in player.__dict__.values():
                     if value == 'player_controller':
                         pass
                     else:
                         print(" {:<19} |".format(str(value)), end='')
                 print(("\n" + "{0}"*133).format('-'))
-
         self.display_options()
         return self.option_choice(sorting_option)
 
     def option_choice(self, sorting_option):
-
+        """
+        Instructions selon l'option choisit dans la vue list des players du
+        script.
+        """
         user_input = input().capitalize()
         if user_input == 'N':
-            return self.controller.new_player(sorting_option)
+            return self.controller.add_player(sorting_option)
         elif user_input == 'A':
             return self.display_view_list_players("ALPHABETICAL")
         # ou return self.controller.display_view_list_players(sorting_option) ????
@@ -84,10 +86,12 @@ class PlayerView:
         else:
             return print("Option invalide")
 
-    def new_player(self):
+    @staticmethod
+    def add_player():
+        """Les inputs relatifs à l'ajout d'un nouveau player."""
         input_new_player = [input("First name : ").capitalize(),
-                    input("Last name : ").capitalize(), input("Date of birth : "),
-                    input("Gender : "), input("Current Elo : ")]
+                            input("Last name : ").capitalize(),
+                            input("Date of birth (yyyy.mm.dd) : "),
+                            input("Gender : "),
+                            input("Current Elo : ")]
         return input_new_player
-
-
