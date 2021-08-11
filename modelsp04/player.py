@@ -14,6 +14,7 @@ class Player:
                  last_name="", date_of_birth="", gender="", current_elo=int()):
         """Initialisation de la classe Player."""
         self.controller = player_controller
+
         self.index = index
         self.first_name = first_name
         self.last_name = last_name
@@ -35,6 +36,15 @@ class Player:
             currend_elo = dict_player["current_elo"]
             player = Player("player_controller", index, first_name, last_name,
                             date_of_birth, gender, currend_elo)
+            # OU faire plutôt comme ci-dessous ?????
+            # player = Player("player_controller",
+            #                 dict_player["index"],
+            #                 dict_player["first_name"],
+            #                 dict_player["last_name"]
+            #                 dict_player["date_of_birth"]
+            #                 dict_player["gender"]
+            #                 dict_player["current_elo"])
+
             self.list_all_player.append(player)
 
     def sorting_default(self):
