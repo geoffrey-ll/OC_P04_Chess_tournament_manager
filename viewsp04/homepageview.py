@@ -44,7 +44,9 @@ class HomePageView:
         Instructions selon l'option choisit dans la vue de la page d'accueil.
         """
         user_input = int(input())
-        if user_input == 3:
+        if user_input == 0:
+            return self.controller.add_tournament()
+        elif user_input == 3:
             return self.controller.display_view_list_players()
 
         elif user_input == 5:

@@ -20,3 +20,6 @@ class HomePageController:
     def display_view_list_players(self):
         """demande la vue list des players au master_controller."""
         return self.controller.display_view_list_players()
+
+    def add_tournament(self):
+        return self.controller.display_view_start_tournament()

@@ -21,7 +21,8 @@ class DataBaseController:
         données, vers le master_controller.
         """
         dict_all_player = self.model.import_db_players()
-        return dict_all_player
+        tournament_in_progress = self.model.import_db_tournament_in_progress()
+        return dict_all_player, tournament_in_progress
 
     def add_player(self, new_player):
         """
@@ -29,3 +30,7 @@ class DataBaseController:
         l'ajouter à la base de données.
         """
         return self.model.add_player(new_player)
+
+    def add_tournament_in_progress(self, tournament_in_progress):
+        return self.model.add_tournament_in_progress(tournament_in_progress)
+        pass

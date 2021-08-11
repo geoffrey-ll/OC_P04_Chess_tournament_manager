@@ -21,23 +21,36 @@ class MasterController:
         self.player_controller = PlayerController(self)
         self.tournament_controller = TournamentController(self)
 
-    def import_db_players(self):
+    def import_data_base(self):
+        dict_all_player, tournament_in_progress = \
+            self.data_base_controller.import_data_base()
+        self.import_db_players(dict_all_player)
+        print(tournament_in_progress)
+        pass
+
+    def import_db_players(self, dict_all_player):
         """
         Retourne une liste de dictionnaires contenant les players de la base de
         données, vers le player_controller.
         """
-        dict_all_player = self.data_base_controller.import_data_base()
+        # dict_all_player = self.data_base_controller.import_data_base()
         if dict_all_player == []:
             pass
         else:
             return self.player_controller.import_data_base(dict_all_player)
+
+    def import_tournament_in_progress(self, tournament_in_progress):
+        if tournament_in_progress == []:
+            pass
+        else:
+            pass
 
     def display_view_home_page(self):
         """demande la vue de la page d'accueil au home_page_controller."""
         return self.home_page_controller.display_view_home_page()
 
     def display_view_start_tournament(self):
-        pass
+        return self.tournament_controller.display_view_start_tournament()
 
     def display_view_finished_tournaments(self):
         pass
@@ -51,3 +64,8 @@ class MasterController:
         Demande au data_base_controller d'ajouter un player à la base de données.
         """
         return self.data_base_controller.add_player(new_player)
+
+    def add_tournament(self, tournament_in_progress):
+        return self.data_base_controller\
+            .add_tournament_in_progress(tournament_in_progress)
+        pass

@@ -9,7 +9,7 @@ def main():
     """Le point d'entré du script."""
 
     init = MasterController()
-    init.import_db_players()
+    init.import_data_base()
     init.display_view_home_page()
 
     pass

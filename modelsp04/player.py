@@ -72,10 +72,17 @@ class Player:
         Retourne vers le player_controller, la liste des players du script
         ordonnés par leur current_elo.
         """
-        self.list_all_player.sort(key=attrgetter("current_elo", "last_name",
-                                                 "first_name", "index"))
+        test = sorted(self.list_all_player, key=attrgetter("current_elo"), reverse=True)
+        # for currentelo1 == current elo2
+        #
+        # # test.sorted("last_name")
+        # # test.sorted(key=attrgetter("last_name"))
+        # test2 = sorted(self.list_all_player.sort(key=attrgetter("current_elo)", "last_name", "first_name", "index")))
+
+        # self.list_all_player = test2e
+
         list_all_player_elo = []
-        for player in self.list_all_player:
+        for player in test2:#self.list_all_player:
             list_all_player_elo.append(player)
         return list_all_player_elo
 
