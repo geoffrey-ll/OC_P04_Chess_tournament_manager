@@ -19,7 +19,9 @@ class Tournament:
         self.time_control = time_control
         self.description = description
 
-    def import_db_tournaments(self):
+    def import_db_tournaments(self, tournament_in_progress):
+        self.tournament_in_progress.append(tournament_in_progress)
+        print(self.tournament_in_progress)
         pass
 
     def add_tournament(self, input_new_tournament):

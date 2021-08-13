@@ -11,6 +11,7 @@ class DataBase:
     db = TinyDB("db.json")
     player = db.table("player")
     tournament_in_progress = db.table("tournament_in_progress")
+    tournament_finished = db.table("tournament_finished")
 
     def __init__(self, database_controller):
         """Initialisation de la base de données"""
@@ -51,3 +52,7 @@ class DataBase:
             dic[key] = value
         self.tournament_in_progress.insert(dic)
         pass
+
+    def closing_tournament(self):
+        # self.tournament_finished.insert(self.tournament_in_progress)
+        return self.tournament_in_progress.truncate()

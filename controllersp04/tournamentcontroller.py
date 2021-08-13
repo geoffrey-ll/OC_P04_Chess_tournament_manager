@@ -20,7 +20,8 @@ class TournamentController:
         self.controller = master_controller
         pass
 
-    def import_db_tournaments(self):
+    def import_db_tournaments(self, tournament_in_progress):
+        self.model.import_db_tournaments(tournament_in_progress)
         pass
 
     def display_view_start_tournament(self):
@@ -37,6 +38,10 @@ class TournamentController:
         self.controller.add_tournament(tournament_in_progress)
         pass
         return self.view_son2.display_view_manager_tournament()
+
+    def manage_tournament(self):
+        return self.view_son2.display_view_manager_tournament()
+        pass
 
     def add_tournament_finished(self, input_new_tournament):
         pass

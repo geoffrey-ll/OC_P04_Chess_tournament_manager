@@ -34,3 +34,7 @@ class DataBaseController:
     def add_tournament_in_progress(self, tournament_in_progress):
         return self.model.add_tournament_in_progress(tournament_in_progress)
         pass
+
+    def closing_tournament(self):
+        0
+        return self.model.closing_tournament()

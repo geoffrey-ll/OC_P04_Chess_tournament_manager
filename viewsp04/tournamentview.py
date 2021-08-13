@@ -77,5 +77,13 @@ class ManagerTournamentView(TournamentView):
     def __init__(self, tournament_controller):
         super().__init__(tournament_controller)
 
+    @staticmethod
+    def display_title2():
+        display_title_2 = "Tournament manager"
+        return print("{:^202}".format(display_title_2))
+
     def display_view_manager_tournament(self):
+        self.display_title_1()
+        self.display_title2()
+        print("")
         pass
