@@ -26,6 +26,10 @@ class MasterController:
             self.data_base_controller.import_data_base()
         self.import_db_players(dict_all_player)
         print(tournament_in_progress)
+        if tournament_in_progress == []:
+            return self.display_view_home_page("empty")
+        if tournament_in_progress != []:
+            return self.display_view_home_page("no empty")
         pass
 
     def import_db_players(self, dict_all_player):
@@ -43,11 +47,12 @@ class MasterController:
         if tournament_in_progress == []:
             pass
         else:
+            return self.tournament_controller.import_db_tournaments(tournament_in_progress)
             pass
 
-    def display_view_home_page(self):
+    def display_view_home_page(self, status):
         """demande la vue de la page d'accueil au home_page_controller."""
-        return self.home_page_controller.display_view_home_page()
+        return self.home_page_controller.display_view_home_page(status)
 
     def display_view_start_tournament(self):
         return self.tournament_controller.display_view_start_tournament()
@@ -69,3 +74,9 @@ class MasterController:
         return self.data_base_controller\
             .add_tournament_in_progress(tournament_in_progress)
         pass
+
+    def manage_tournament(self):
+        return self.tournament_controller.manage_tournament()
+
+    def closing_tournament(self):
+        return self.data_base_controller.closing_tournament()
