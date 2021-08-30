@@ -2,6 +2,8 @@
 # coding: utf-8
 
 
+import re
+
 class PlayerView:
     """Ceci est la vue de la liste des players du script."""
 
@@ -33,7 +35,7 @@ class PlayerView:
         print(("\n" + "{0}"*133).format('-'))
 
     def display_player(self):
-        """Affichage des joueurs."""
+        """Affichage des donnés d'un joueur."""
         pass
 
     @staticmethod
@@ -48,25 +50,37 @@ class PlayerView:
         print("[E] : {}\n".format(list_options[4]))
         print("[R] : {}".format(list_options[5]))
 
-    def display_view_list_players(self, sorting_option="DEFAULT"):
+    def display_view_list_players(self, sorting_option="DEFAULT", invalide_option=False):
         """Affichage de la vue list_of_player."""
         self.display_title_1()
         self.display_title_2()
         self.display_headers()
-        list_players = self.controller.get_list_players(sorting_option)
+        list_players = self.controller.sort_players(sorting_option)
         for idx, player, in enumerate(list_players):
             if list_players == []:
                 pass
             else:
                 print('|', end='')
-                for value in player.__dict__.values():
-                    if value == 'player_controller':
+                for key, value in player.items():
+                    if value == "player_controller":
                         pass
                     else:
                         print(" {:<19} |".format(str(value)), end='')
                 print(("\n" + "{0}"*133).format('-'))
         self.display_options()
+        if invalide_option is True:
+            print("\nInvalide option")
         return self.option_choice(sorting_option)
+
+    @staticmethod
+    def add_player():
+        """Les inputs relatifs à l'ajout d'un nouveau player."""
+        input_new_player = [input("First name : ").capitalize(),
+                            input("Last name : ").capitalize(),
+                            input("Date of birth (yyyy.mm.dd) : "),
+                            input("Gender : "),
+                            input("Current Elo : ")]
+        return input_new_player
 
     def option_choice(self, sorting_option):
         """
@@ -83,15 +97,9 @@ class PlayerView:
             return self.display_view_list_players("DEFAULT")
         elif user_input == 'E':
             return self.display_view_list_players("ELO")
+        elif user_input == "R":
+            return self.controller.display_view_home_page()
         else:
-            return print("Option invalide")
+            invalide_option = True
+            return self.display_view_list_players(sorting_option, invalide_option)
 
-    @staticmethod
-    def add_player():
-        """Les inputs relatifs à l'ajout d'un nouveau player."""
-        input_new_player = [input("First name : ").capitalize(),
-                            input("Last name : ").capitalize(),
-                            input("Date of birth (yyyy.mm.dd) : "),
-                            input("Gender : "),
-                            input("Current Elo : ")]
-        return input_new_player

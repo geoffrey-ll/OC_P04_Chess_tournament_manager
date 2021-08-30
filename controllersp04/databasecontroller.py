@@ -15,14 +15,27 @@ class DataBaseController:
         self.model = DataBase(self)
         self.controller = master_controller
 
-    def import_data_base(self):
+    def get_list_players(self):
         """
-        Retourne une liste de dictionnaires contenant les players de la base de
-        données, vers le master_controller.
+        Demande la liste de tous les joueurs enregistrés dans la base de données.
         """
-        dict_all_player = self.model.import_db_players()
-        tournament_in_progress = self.model.import_db_tournament_in_progress()
-        return dict_all_player, tournament_in_progress
+        return self.model.get_list_players()
+
+    def get_len_players_in_db(self):
+        """Demande le nombre de joueurs enregistrées dans la base de données."""
+        return self.model.get_len_players_in_db()
+
+    def get_tournament_in_progress_or_not(self):
+        """Demande si un tournoi est en cours ou non."""
+        return self.model.get_tournament_in_progress_or_not()
+
+    def get_tournament_in_progress(self):
+        """Demande les données du tournoi en cours."""
+        return self.model.get_tournament_in_progress()
+
+    def get_list_round(self):
+        return self.model.get_list_round()
+
 
     def add_player(self, new_player):
         """
@@ -32,9 +45,15 @@ class DataBaseController:
         return self.model.add_player(new_player)
 
     def add_tournament_in_progress(self, tournament_in_progress):
+        """Envoi les données du tournoi en cours vers la base de données."""
         return self.model.add_tournament_in_progress(tournament_in_progress)
-        pass
+
+    def add_round(self, round_in_progress):
+        return self.model.add_round(round_in_progress)
 
     def closing_tournament(self):
-        0
+        """Demande de transférer le tournoi clôturé vers les tournois finis."""
         return self.model.closing_tournament()
+
+    def save_round(self, round_update):
+        return self.model.save_round(round_update)

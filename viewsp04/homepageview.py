@@ -53,7 +53,7 @@ class HomePageView:
 
         if user_input == "0":
             if status == "empty":
-                return self.controller.add_tournament()
+                return self.controller.new_tournament()
             elif status == "no empty":
                 return self.controller.manage_tournament()
         elif user_input == "1":

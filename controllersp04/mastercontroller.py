@@ -6,6 +6,8 @@ from .databasecontroller import DataBaseController
 from .homepagecontroller import HomePageController
 from .playercontroller import PlayerController
 from .tournamentcontroller import TournamentController
+from .roundcontroller import RoundController
+from .matchcontroller import MatchController
 
 
 class MasterController:
@@ -20,41 +22,54 @@ class MasterController:
         self.home_page_controller = HomePageController(self)
         self.player_controller = PlayerController(self)
         self.tournament_controller = TournamentController(self)
+        self.round_controller = RoundController(self)
+        self.match_controller = MatchController(self)
 
-    def import_data_base(self):
-        dict_all_player, tournament_in_progress = \
-            self.data_base_controller.import_data_base()
-        self.import_db_players(dict_all_player)
-        print(tournament_in_progress)
-        if tournament_in_progress == []:
-            return self.display_view_home_page("empty")
-        if tournament_in_progress != []:
-            return self.display_view_home_page("no empty")
-        pass
 
-    def import_db_players(self, dict_all_player):
+
+
+    def get_tournament_in_progress_or_not(self):
+        """Pour savoir si un tournoi est en cours ou pas."""
+        return self.data_base_controller.get_tournament_in_progress_or_not()
+
+    def get_list_players(self):
         """
-        Retourne une liste de dictionnaires contenant les players de la base de
-        données, vers le player_controller.
+        Demande au data_base_controller la liste de tous les joueurs enregistrés.
         """
-        # dict_all_player = self.data_base_controller.import_data_base()
-        if dict_all_player == []:
-            pass
-        else:
-            return self.player_controller.import_data_base(dict_all_player)
+        return self.data_base_controller.get_list_players()
 
-    def import_tournament_in_progress(self, tournament_in_progress):
-        if tournament_in_progress == []:
-            pass
-        else:
-            return self.tournament_controller.import_db_tournaments(tournament_in_progress)
-            pass
+    def get_len_players_in_db(self):
+        """Demande au data_base_controller le nombre de joeurs enregistrées."""
+        return self.data_base_controller.get_len_players_in_db()
 
-    def display_view_home_page(self, status):
-        """demande la vue de la page d'accueil au home_page_controller."""
+    def get_tournament_in_progress(self):
+        """Demande au data_base_controller, les données du tournoi en cours."""
+        return self.data_base_controller.get_tournament_in_progress()
+
+    def get_list_round(self):
+        return self.data_base_controller.get_list_round()
+
+    def get_participants(self):
+        return self.tournament_controller.get_participants()
+
+    def get_round(self):
+        return self.round_controller.get_round()
+
+    def display_view_home_page(self):
+        """
+        Demande la vue de la page d'accueil au home_page_controller.
+
+        Les options de la page d'accueil diffèrent selon qu'un tournoi est en
+        cours ou non.
+
+        status est la pour ça.
+        """
+        status = self.get_tournament_in_progress_or_not()
+
         return self.home_page_controller.display_view_home_page(status)
 
     def display_view_start_tournament(self):
+        """Demande la vue de démarrage d'un tournoi au tournament_controller."""
         return self.tournament_controller.display_view_start_tournament()
 
     def display_view_finished_tournaments(self):
@@ -71,12 +86,49 @@ class MasterController:
         return self.data_base_controller.add_player(new_player)
 
     def add_tournament(self, tournament_in_progress):
+        """
+        Demande au data_base_controller d'ajouter le nouveau tournoi crée dans
+        la base de données, en tant que tournoi en cours.
+        """
         return self.data_base_controller\
             .add_tournament_in_progress(tournament_in_progress)
-        pass
+
+    def add_round(self, round_in_progress):
+        return self.data_base_controller.add_round(round_in_progress)
+
+    def new_tournament(self):
+        """Demande les inputs pour créer un nouveau tournoi."""
+        return self.tournament_controller.new_tournament()
+
+    def new_match(self, participant_1, participant_2):
+        return self.match_controller.new_match(participant_1, participant_2)
+
+    def new_round(self):
+        return self.round_controller.new_round()
+
+
 
     def manage_tournament(self):
         return self.tournament_controller.manage_tournament()
 
+    def initialize_round(self, in_progress):
+        return self.round_controller.initialize_round(in_progress)
+        pass
+
     def closing_tournament(self):
+        """Demande au data_base_controller de supprimer le tournoi en cours."""
         return self.data_base_controller.closing_tournament()
+
+
+
+
+
+    def save_round(self, round_update):
+        return self.data_base_controller.save_round(round_update)
+
+
+    def test(self):
+        return
+
+    def tempo_matching(self):
+        return self.round_controller.matching()

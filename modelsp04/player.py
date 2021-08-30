@@ -2,7 +2,7 @@
 # coding: utf-8
 
 
-from operator import attrgetter
+import operator as ope
 
 
 class Player:
@@ -22,78 +22,12 @@ class Player:
         self.gender = gender
         self.current_elo = current_elo
 
-    def import_db_players(self, dict_all_player):
-        """
-        Ajoute les players de la base de données, à la liste des players du
-        script.
-        """
-        for dict_player in dict_all_player:
-            index = dict_player["index"]
-            first_name = dict_player["first_name"]
-            last_name = dict_player["last_name"]
-            date_of_birth = dict_player["date_of_birth"]
-            gender = dict_player["gender"]
-            currend_elo = dict_player["current_elo"]
-            player = Player("player_controller", index, first_name, last_name,
-                            date_of_birth, gender, currend_elo)
-            # OU faire plutôt comme ci-dessous ?????
-            # player = Player("player_controller",
-            #                 dict_player["index"],
-            #                 dict_player["first_name"],
-            #                 dict_player["last_name"]
-            #                 dict_player["date_of_birth"]
-            #                 dict_player["gender"]
-            #                 dict_player["current_elo"])
-
-            self.list_all_player.append(player)
-
-    def sorting_default(self):
-        """
-        Retourne vers le player_controller, la liste des players du script
-        ordonnés par leur index.
-        """
-        self.list_all_player.sort(key=attrgetter('index'))
-        return self.list_all_player
-
-    def sorting_alphabetical(self):
-        """
-        Retourne vers le player_controller, la liste des players du script
-        ordonnés par leur last_name.
-        """
-        self.list_all_player.sort(key=attrgetter("last_name", "first_name",
-                                                 "current_elo", "index"))
-        list_all_player_alphabetical = []
-        for player in self.list_all_player:
-            list_all_player_alphabetical.append(player)
-        return list_all_player_alphabetical
-
-    def sorting_elo(self):
-        """
-        Retourne vers le player_controller, la liste des players du script
-        ordonnés par leur current_elo.
-        """
-        test = sorted(self.list_all_player, key=attrgetter("current_elo"), reverse=True)
-        # for currentelo1 == current elo2
-        #
-        # # test.sorted("last_name")
-        # # test.sorted(key=attrgetter("last_name"))
-        # test2 = sorted(self.list_all_player.sort(key=attrgetter("current_elo)", "last_name", "first_name", "index")))
-
-        # self.list_all_player = test2e
-
-        list_all_player_elo = []
-        for player in test2:#self.list_all_player:
-            list_all_player_elo.append(player)
-        return list_all_player_elo
-
     def add_player(self, input_new_player):
         """
-        Cette méthode instancie un joueur et l'ajoute à la liste des players du
-        script, puis renvoi le nouveau player vers le player_controller pour
-        qu'il soit ajouté à la base de données.
+        Créer un nouveau joueur à partir des inputs, puis envoi les données pour
+        son insertion dans la base de données.
         """
-        index = len(self.list_all_player)  # Faire un +1 pour que la valeur
-        # corresponde à celle de l'index de la base de données ?
+        index = self.controller.get_len_players_in_db() + 1
         first_name = input_new_player[0]
         last_name = input_new_player[1]
         date_of_birth = input_new_player[2]
@@ -101,5 +35,37 @@ class Player:
         current_elo = int(input_new_player[4])
         new_player = Player("player_controller", index, first_name, last_name,
                             date_of_birth, gender, current_elo)
-        self.list_all_player.append(new_player)
         return new_player
+
+
+    def sorting_default(self, list_players):
+        """
+        Tri la liste des joueurs de la base de données, par ordre croissant de
+        leur index.
+        """
+
+        list_players.sort(key=ope.itemgetter('index'))
+        return list_players
+
+
+    def sorting_alphabetical(self, list_players):
+        """
+        Tri la liste des joueurs de la base de données, par ordre croissant de
+        leur last_name.
+        """
+
+        list_players.sort(key=ope.itemgetter("last_name", "first_name", "current_elo", "index"))
+        return list_players
+
+
+
+    def sorting_elo(self, list_players):
+        """
+        Tri la liste des joueurs de la base de données, par ordre croissant de
+        leur classement elo.
+        """
+
+        list_players.sort(key=ope.itemgetter("current_elo", "last_name", "first_name", "index"))
+        return list_players
+
+

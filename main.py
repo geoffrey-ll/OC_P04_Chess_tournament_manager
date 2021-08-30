@@ -9,8 +9,10 @@ def main():
     """Le point d'entré du script."""
 
     init = MasterController()
-    init.import_data_base()
+    # init.import_data_base()
+    init.display_view_home_page()
     # init.closing_tournament()
+
 
     pass
 

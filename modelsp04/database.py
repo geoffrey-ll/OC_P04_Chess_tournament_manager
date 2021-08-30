@@ -2,7 +2,7 @@
 # coding: utf-8
 
 
-from tinydb import TinyDB  # , Query
+from tinydb import TinyDB, where , Query
 
 
 class DataBase:
@@ -12,32 +12,51 @@ class DataBase:
     player = db.table("player")
     tournament_in_progress = db.table("tournament_in_progress")
     tournament_finished = db.table("tournament_finished")
+    round_in_progress = db.table("round_in_progress")
 
     def __init__(self, database_controller):
         """Initialisation de la base de données"""
         self.controller = database_controller
 
-    def import_db_players(self):
-        """
-        Extrait de la base de données, une liste de dictionnaires contenant les
-        players, et les retourne vers le data_base_controller.
-        """
-        player_in_db = self.player
-        dict_all_player = []
-        for idx, player in enumerate(player_in_db):
-            dict_all_player.append(player)
-        return dict_all_player
+    def get_list_players(self):
+        """Renvoi la liste de tous les joueurs de la base de données."""
+        list_players = []
+        for idx, player in enumerate(self.player):
+            list_players.append(player)
 
-    def import_db_tournament_in_progress(self):
-        if self.tournament_in_progress == {}:
-            pass
+        return list_players
+
+    def get_len_players_in_db(self):
+        """
+        Renvoi la nombre de joueurs présent dans la base de données.
+        Pour la bonne association joueur/index.
+        """
+        return len(self.player)
+
+    def get_tournament_in_progress_or_not(self):
+        """Renvoi si un tournoi est en cours ou pas."""
+        if len(self.tournament_in_progress) == 0:
+            return "empty"
         else:
-            """A faire plus condenser"""
-            test = self.tournament_in_progress
-            dict_test = []
-            for idx, value in enumerate(test):
-                dict_test.append(value)
-            return dict_test
+            return "no empty"
+
+    def get_tournament_in_progress(self):
+        """Renvoi les données du tournoi en cours."""
+        tournament_in_progress = []
+        for idx, value in enumerate(self.tournament_in_progress):
+            tournament_in_progress.append(value)
+        return tournament_in_progress
+
+    def get_list_round(self):
+        list_round = []
+        for idx, round in enumerate(self.round_in_progress):
+            list_round.append(round)
+
+        return list_round
+
+
+
+
 
     def add_player(self, new_player):
         """Ajoute le nouveau joueur dans la base de données."""
@@ -47,12 +66,34 @@ class DataBase:
         self.player.insert(dic)
 
     def add_tournament_in_progress(self, tournament_in_progress):
+        """Ajoute les données du tournoi en cours dans la base de dnnées."""
         dic = {}
         for key, value in tournament_in_progress.__dict__.items():
-            dic[key] = value
+            if key == "participants":
+                dic[key] = {}
+                for sub_key, sub_value in value.items():
+                    dic[key][sub_key] = str(sub_value)
+            else:
+                dic[key] = value
         self.tournament_in_progress.insert(dic)
+
+    def add_round(self, round_in_progress):
+        dic = {}
+        for round in round_in_progress:
+            for key, value in round.__dict__.items():
+                dic[key] = value
+            self.round_in_progress.insert(dic)
         pass
 
     def closing_tournament(self):
+        """Pour transférer le tournoi clôturé vers les tournois finis."""
         # self.tournament_finished.insert(self.tournament_in_progress)
+        self.round_in_progress.truncate()
         return self.tournament_in_progress.truncate()
+
+    def save_round(self, round_update):
+        update = {}
+        for key, value in round_update.__dict__.items():
+            update[key] = value
+        self.round_in_progress.update(update, where("name") == round_update.name)
+        pass
