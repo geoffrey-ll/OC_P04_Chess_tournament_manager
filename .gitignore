@@ -5,6 +5,7 @@ test.py
 message_for_commit.txt
 .idea/
 db.json
+database_player_gmi.json
 
 # Created by https://www.toptal.com/developers/gitignore/api/pycharm,visualstudio,python,macos,linux,windows
 # Edit at https://www.toptal.com/developers/gitignore?templates=pycharm,visualstudio,python,macos,linux,windows

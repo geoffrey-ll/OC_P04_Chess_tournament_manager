@@ -36,6 +36,21 @@ class DataBaseController:
     def get_list_round(self):
         return self.model.get_list_round()
 
+    def get_round_to_do(self):
+        return self.model.get_round_to_do()
+
+    def get_round_in_progress(self):
+        return self.model.get_round_in_progress()
+        pass
+
+    def get_participants(self):
+        return self.model.get_participants()
+        pass
+
+    def get_player_exists(self, index_to_check):
+        return self.model.get_player_exists(index_to_check)
+        pass
+
 
     def add_player(self, new_player):
         """

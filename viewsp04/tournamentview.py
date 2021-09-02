@@ -72,20 +72,33 @@ class StartTournamentView(TournamentView):
         return "Tournament n°{} of 2021.".format("xx")
 
 
-    def input_name(self):
+    def input_name(self, invalide="FALSE"):
         """Demande à l'utilisateur le nom du tournoi à créer."""
-        input_name = input("Name of tournament : ").capitalize()
-        return input_name
 
-    def input_place(self):
+        if invalide == "FALSE":
+            input_name = input("Name of tournament : ").capitalize()
+            return self.controller.check_name(input_name)
+        elif invalide == "TRUE":
+            print("\nNo entry")
+            return self.input_name()
+
+    def input_place(self, invalide="FALSE"):
         """Demande à l'utilisateur le lieu du tournoi à créer."""
-        input_place = input("Place of tournament : ").capitalize()
-        return input_place
+        if invalide == "FALSE":
+            input_place = input("Place of tournament : ").capitalize()
+            return self.controller.check_place(input_place)
+        elif invalide == "TRUE":
+            print("\nNo entry")
+            return self.input_place()
 
-    def input_participant(self):
+    def input_participant(self, invalide="FALSE"):
         """Demande à l'utilisateur les participants du tournoi à créer."""
-        input_participants = input("Participants (player index) : ")
-        return self.controller.check_participant(input_participants)
+        if invalide == "FALSE":
+            input_participants = input("Participants (player index) : ")
+            return self.controller.check_participant(input_participants)
+        elif invalide == "TRUE":
+            print("Some participants were not found")
+            return self.input_participant()
 
     def input_round(self, invalide="FALSE"):
         """Demande à l'utilisateur le nombre de round du tournoi à créer."""
@@ -94,8 +107,7 @@ class StartTournamentView(TournamentView):
             return self.controller.check_round(input_round)
         elif invalide == "TRUE":
             print("\nRéponse invalide")
-            input_round = input("Round : 4 ")
-            return self.controller.check_round(input_round)
+            return self.input_round()
 
     def input_match_in_round(self, invalide="FALSE"):
         """
@@ -106,8 +118,7 @@ class StartTournamentView(TournamentView):
             return self.controller.check_match_in_round(input_match_in_round)
         elif invalide == "TRUE":
             print("\nRéponse invalide")
-            input_match_in_round = input("Match in rounnd :")
-            return self.controller.check_match_in_round(input_match_in_round)
+            return self.input_match_in_round()
 
     def input_time_control(self, invalide="FALSE"):
         """Demande à l'utilisateur le genre de match (durée) du tournoi à créer."""
@@ -116,8 +127,7 @@ class StartTournamentView(TournamentView):
             return self.controller.check_time_control(input_time_control)
         elif invalide == "TRUE":
             print("\nRéponse invalide")
-            input_time_control = input(self.display_time_control())
-            return self.controller.check_time_control(input_time_control)
+            return self.input_time_control()
 
     def input_description(self):
         """Demande à l'utilisateur une description du tournoi à créer."""

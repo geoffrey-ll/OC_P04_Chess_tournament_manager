@@ -64,6 +64,8 @@ class PlayerView:
                 for key, value in player.items():
                     if value == "player_controller":
                         pass
+                    elif key == "current_elo":
+                        print(" {:<19} |".format(int(-value)), end='')
                     else:
                         print(" {:<19} |".format(str(value)), end='')
                 print(("\n" + "{0}"*133).format('-'))
@@ -72,15 +74,58 @@ class PlayerView:
             print("\nInvalide option")
         return self.option_choice(sorting_option)
 
-    @staticmethod
-    def add_player():
-        """Les inputs relatifs à l'ajout d'un nouveau player."""
-        input_new_player = [input("First name : ").capitalize(),
-                            input("Last name : ").capitalize(),
-                            input("Date of birth (yyyy.mm.dd) : "),
-                            input("Gender : "),
-                            input("Current Elo : ")]
-        return input_new_player
+
+
+    def input_first_name(self, invalide="FALSE"):
+        """Demande à l'utilisateur, le prénom du joueur à enregistré."""
+        if invalide == "FALSE":
+            input_first_name = input("First name : ").capitalize()
+            return self.controller.check_first_name(input_first_name)
+        elif invalide == "TRUE":
+            print("\nNo entry")
+            return self.input_first_name()
+
+    def input_last_name(self, invalide="FALSE"):
+        """Demande à l'utilisateur, le nom du joueur à enregistré."""
+        if invalide == "FALSE":
+            input_last_name = input ("Last name : ").capitalize()
+            return self.controller.check_last_name(input_last_name)
+        elif invalide == "TRUE":
+            print("\nNo entry")
+            return self.input_last_name()
+
+    def input_date_birth(self, invalide="FALSE"):
+        """
+        Demande à l'utilisateur, la date de naissance du joueur à enregistrée.
+        """
+        if invalide == "FALSE":
+            input_date_birth = input("Date of birth (yyyy.mm.dd) : ")
+            return self.controller.check_date_birth(input_date_birth)
+        elif invalide == "TRUE":
+            print("\nThe date of birth does not follow the expected format")
+            return self.input_date_birth()
+
+    def input_gender(self, invalide="FALSE"):
+        """Demande à l'utilisateur, le sexe du joueur à enregistré."""
+        if invalide == "FALSE":
+            input_gender = input("Gender (m/f) : ").capitalize()
+            return self.controller.check_gender(input_gender)
+        elif invalide == "TRUE":
+            print("\nRéponse invalide")
+            return self.input_gender()
+
+    def input_current_elo(self, invalide="FALSE"):
+        """Demande à l'utilisateur, le classement elo du joueur à enregistré."""
+        if invalide == "FALSE":
+            input_current_elo = input("Current Elo : ")
+            return self.controller.check_current_elo(input_current_elo)
+        elif invalide == "TRUE":
+            print("\nRéponse invalide")
+            return self.input_current_elo()
+        elif invalide == "INHUMAN":
+            print("\nRobots are not allowed in the OpenClassrooms club ")
+            return self.input_current_elo()
+
 
     def option_choice(self, sorting_option):
         """
@@ -89,10 +134,9 @@ class PlayerView:
         """
         user_input = input().capitalize()
         if user_input == 'N':
-            return self.controller.add_player(sorting_option)
+            return self.controller.new_player(sorting_option)
         elif user_input == 'A':
             return self.display_view_list_players("ALPHABETICAL")
-        # ou return self.controller.display_view_list_players(sorting_option) ????
         elif user_input == 'I':
             return self.display_view_list_players("DEFAULT")
         elif user_input == 'E':
