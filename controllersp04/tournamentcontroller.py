@@ -28,9 +28,6 @@ class TournamentController:
         """
         return self.controller.get_list_players()
 
-    def get_participants(self):
-        return self.controller.get_participants()
-
     def get_player_exists(self, index_to_check):
         return self.controller.get_player_exists(index_to_check)
         pass

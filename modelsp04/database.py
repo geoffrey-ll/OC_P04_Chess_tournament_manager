@@ -47,30 +47,62 @@ class DataBase:
 
     def get_round_to_do(self):
         for round in self.round_tournament:
-            if round["round_status"] == "TO_DO":
+            if round["status_round"] == "TO_DO":
                 return round
             else:
                 pass
 
     def get_round_in_progress(self):
         for round in self.round_tournament:
-            if round["round_status"] == "IN_PROGRESS":
+            if round["status_round"] == "IN_PROGRESS":
                 return round
             else:
                 pass
         return "NO_ROUND_IN_PROGRESS"
         pass
 
-    def get_participants(self):
+    def get_status_participants(self):
         dico_tournament = self.tournament_in_progress.search(Query().controller == "tournament_controller")
-        return dico_tournament[0]["participants_status"]
+        return dico_tournament[0]["status_participants"]
+
+    def get_players_participants(self):
+        """Remarque : dans la base de données, les scores elo sont stockés comme entier négatifs."""
+        index_participants = self.get_index_participants() # utiliser get_status_participants juste au-dessus !!!!!!!!!!!!!!!!!
+        players_participants = []
+        for idx in index_participants:
+            players_participants.append(self.player.search(Query().index == int(idx))[0])
+        return players_participants
+        pass
+
+    def get_index_participants(self):
+        index_participants = []
+        dico_tournament = self.tournament_in_progress.search(Query().controller == "tournament_controller")
+        for key in dico_tournament[0]["status_participants"]:
+            index_participants.append(re.findall("[0-9]+", key)[0])
+        return index_participants
+        pass
+
+    def get_elo_participants(self):
+        """Remarque : dans la base de données, les scores elo sont stockés comme entier négatifs."""
+        index_participants = self.get_index_participants()
+        elo_participants = []
+        for index in index_participants:
+            elo_participant = {}
+            player = self.player.search(Query().index == int(index))
+            elo_participant["index_player"] = index
+            elo_participant["current_elo"] = -player[0]["current_elo"]
+            elo_participants.append(elo_participant)
+        return elo_participants
+        pass
 
     def get_player_exists(self, index_to_check):
-        participants_validate = []
+        participants_validate = {}
         for indexx in index_to_check:
             if self.player.search(Query().index == int(indexx)):
-                participants_validate.append(["player_index_{}".format(int(indexx)), "score_0"])
-
+                participants_validate["player_index_{}".format(indexx)] = {}
+                participants_validate["player_index_{}".format(indexx)]["score"] = 0
+                participants_validate["player_index_{}".format(indexx)]["colors"] = []
+                participants_validate["player_index_{}".format(indexx)]["opponent_index"] = []
         if len(participants_validate) == len(index_to_check):
             return participants_validate
         else:
@@ -89,12 +121,7 @@ class DataBase:
         """Ajoute les données du tournoi en cours dans la base de dnnées."""
         dic = {}
         for key, value in tournament_in_progress.__dict__.items():
-            if key == "participants_status":
-                dic[key] = {}
-                for participant in value:
-                    dic[key][participant[0]] = participant[1]
-            else:
-                dic[key] = value
+            dic[key] = value
         self.tournament_in_progress.insert(dic)
 
     def add_round(self, round_in_progress):

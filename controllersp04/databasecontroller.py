@@ -43,8 +43,20 @@ class DataBaseController:
         return self.model.get_round_in_progress()
         pass
 
-    def get_participants(self):
-        return self.model.get_participants()
+    def get_status_participants(self):
+        return self.model.get_status_participants()
+        pass
+
+    def get_players_participants(self):
+        return self.model.get_players_participants()
+        pass
+
+    def get_index_participants(self):
+        return self.model.get_index_participants()
+        pass
+
+    def get_elo_participants(self):
+        return self.model.get_elo_participants()
         pass
 
     def get_player_exists(self, index_to_check):

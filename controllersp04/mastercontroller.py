@@ -56,8 +56,20 @@ class MasterController:
         return self.data_base_controller.get_round_in_progress()
         pass
 
-    def get_participants(self):
-        return self.data_base_controller.get_participants()
+    def get_status_participants(self):
+        return self.data_base_controller.get_status_participants()
+
+    def get_players_participants(self):
+        return self.data_base_controller.get_players_participants()
+        pass
+
+    def get_index_participants(self):
+        return self.data_base_controller.get_index_participants()
+        pass
+
+    def get_elo_participants(self):
+        return self.data_base_controller.get_elo_participants()
+        pass
 
     def get_player_exists(self, index_to_check):
         return self.data_base_controller.get_player_exists(index_to_check)
@@ -147,6 +159,7 @@ class MasterController:
     def tournament_manager(self):
         self.display_view_manage_tournament()
         print("le reste à faire IN master_controller")
+        self.data_base_controller.get_player_exists(['2', '8', '1', '7', '6', '9'])
         self.round_manager()
         self.get_tournament_in_progress()
         return self.tournament_controller.tournament_manager()

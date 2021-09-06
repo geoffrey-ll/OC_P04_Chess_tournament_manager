@@ -2,8 +2,7 @@
 # coding: utf-8
 
 
-import operator as ope
-
+from operator import itemgetter
 
 class Player:
     """Ceci est la classe Player."""
@@ -43,7 +42,7 @@ class Player:
         Tri la liste des joueurs de la base de données, par ordre croissant de
         leur index.
         """
-        list_players.sort(key=ope.itemgetter('index'))
+        list_players.sort(key=itemgetter("index"))
         return list_players
 
     def sorting_alphabetical(self, list_players):
@@ -51,7 +50,7 @@ class Player:
         Tri la liste des joueurs de la base de données, par ordre croissant de
         leur last_name.
         """
-        list_players.sort(key=ope.itemgetter("last_name", "first_name", "current_elo", "index"))
+        list_players.sort(key=itemgetter("last_name", "first_name", "current_elo", "index"))
         return list_players
 
     def sorting_elo(self, list_players):
@@ -59,7 +58,7 @@ class Player:
         Tri la liste des joueurs de la base de données, par ordre croissant de
         leur classement elo.
         """
-        list_players.sort(key=ope.itemgetter("current_elo", "last_name", "first_name", "index"))
+        list_players.sort(key=itemgetter("current_elo", "last_name", "first_name", "index"))
         return list_players
 
 

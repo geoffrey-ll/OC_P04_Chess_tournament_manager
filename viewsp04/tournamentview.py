@@ -106,7 +106,7 @@ class StartTournamentView(TournamentView):
             input_round = input("Round : 4 ")
             return self.controller.check_round(input_round)
         elif invalide == "TRUE":
-            print("\nRéponse invalide")
+            print("\nInvalid answer")
             return self.input_round()
 
     def input_match_in_round(self, invalide="FALSE"):
@@ -117,7 +117,7 @@ class StartTournamentView(TournamentView):
             input_match_in_round = input("Match in round :")
             return self.controller.check_match_in_round(input_match_in_round)
         elif invalide == "TRUE":
-            print("\nRéponse invalide")
+            print("\nInvalide answer")
             return self.input_match_in_round()
 
     def input_time_control(self, invalide="FALSE"):
@@ -126,7 +126,7 @@ class StartTournamentView(TournamentView):
             input_time_control = input(self.display_time_control())
             return self.controller.check_time_control(input_time_control)
         elif invalide == "TRUE":
-            print("\nRéponse invalide")
+            print("\nInvalide answer")
             return self.input_time_control()
 
     def input_description(self):
