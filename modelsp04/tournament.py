@@ -23,7 +23,21 @@ class Tournament:
         self.description = description
 
 
-    def get_tournament_in_progress(self):
+    def unserial_tournament_in_progress(self, in_progress):
+        print("\nunserial_in_progress IN tournament\n", in_progress)
+
+        index = in_progress["index"]
+        name = in_progress["name"]
+        place = in_progress["place"]
+        status_participants = in_progress["status_participants"]
+        round = in_progress["round"]
+        match_in_round = in_progress["match_in_round"]
+        time_control = in_progress["time_control"]
+        description = in_progress["description"]
+
+        self.tournament_in_progress = Tournament("tournament_controller", index, name, place, status_participants, round, match_in_round, time_control, description)
+
+        return self.tournament_in_progress
         pass
 
 
@@ -32,6 +46,7 @@ class Tournament:
         if len(self.list_finished_tournaments) == 0:
             index = 1
         else:
+            # il faut demander le len à la base de données !!!!!
             index = len(self.list_finished_tournaments + 1)
         name = new_tournament[0]
         place = new_tournament[1]

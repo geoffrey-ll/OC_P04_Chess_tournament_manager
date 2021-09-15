@@ -33,8 +33,8 @@ class DataBaseController:
         """Demande les données du tournoi en cours."""
         return self.model.get_tournament_in_progress()
 
-    def get_list_round(self):
-        return self.model.get_list_round()
+    def get_list_rounds(self):
+        return self.model.get_list_rounds()
 
     def get_round_to_do(self):
         return self.model.get_round_to_do()
@@ -82,5 +82,9 @@ class DataBaseController:
         """Demande de transférer le tournoi clôturé vers les tournois finis."""
         return self.model.closing_tournament()
 
-    def save_round(self, round_update):
-        return self.model.save_round(round_update)
+    def save_round(self, round_to_update):
+        return self.model.save_round(round_to_update)
+
+    def save_tournament(self, tournament_to_update):
+        return self.model.save_tournament(tournament_to_update)
+        pass

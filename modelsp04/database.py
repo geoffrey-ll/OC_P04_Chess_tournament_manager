@@ -40,9 +40,23 @@ class DataBase:
 
     def get_tournament_in_progress(self):
         """Renvoi les données du tournoi en cours."""
-        return self.tournament_in_progress.search(Query().controller == "tournament_controller")
+        print("\ntest in db\n")
+        for element in self.tournament_in_progress:
+            print(element)
+            return element
 
-    def get_list_round(self):
+        print("\ntest 2\n")
+        for element2 in self.tournament_in_progress.search(Query().time_control == 0):
+            print(element2)
+
+        print("\ntest 3\n")
+        for element3 in self.tournament_in_progress.search(Query().controller == "tournament_controller"):
+            print(element3)
+
+
+
+
+    def get_list_rounds(self):
         return self.round_tournament.search(Query().controller == "round_controller")
 
     def get_round_to_do(self):
@@ -139,10 +153,17 @@ class DataBase:
         self.round_tournament.truncate()
         return self.tournament_in_progress.truncate()
 
-    def save_round(self, round_update):
+    def save_round(self, round_to_update):
+        update = {}
+        for key, value in round_to_update.__dict__.items():
+            update[key] = value
+        self.round_tournament.update(update, where("name") == update["name"])
+        pass
 
-        # update = {}
-        # for key, value in round_update.__dict__.items():
-        #     update[key] = value
-        self.round_tournament.update(round_update, where("name") == round_update["name"])
+    def save_tournament(self, tournament_to_update):
+        print(tournament_to_update)
+        update = {}
+        for key, value in tournament_to_update.__dict__.items():
+            update[key] = value
+        self.tournament_in_progress.update(update, where("name") == update["name"])
         pass

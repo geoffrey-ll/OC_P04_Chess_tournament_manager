@@ -51,23 +51,23 @@ class PlayerView:
         print("[R] : {}".format(list_options[5]))
 
     def display_view_list_players(self, sorting_option="DEFAULT", invalide_option=False):
-        """Affichage de la vue list_of_player."""
+        """Affichage de la vue list_of_players."""
         self.display_title_1()
         self.display_title_2()
         self.display_headers()
         list_players = self.controller.sort_players(sorting_option)
-        for idx, player, in enumerate(list_players):
-            if list_players == []:
-                pass
-            else:
+        if list_players == []:
+            pass
+        else:
+            for player in list_players:
                 print('|', end='')
-                for key, value in player.items():
-                    if value == "player_controller":
+                for attribut in player.__dict__:
+                    if attribut == "controller":
                         pass
-                    elif key == "current_elo":
-                        print(" {:<19} |".format(int(-value)), end='')
+                    elif attribut == "current_elo":
+                        print(" {:<19} |".format(int(-player.__getattribute__(attribut))), end='')
                     else:
-                        print(" {:<19} |".format(str(value)), end='')
+                        print(" {:<19} |".format(str(player.__getattribute__(attribut))), end='')
                 print(("\n" + "{0}"*133).format('-'))
         self.display_options()
         if invalide_option is True:

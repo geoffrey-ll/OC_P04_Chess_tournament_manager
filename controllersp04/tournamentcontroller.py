@@ -22,11 +22,15 @@ class TournamentController:
         self.controller = master_controller
         pass
 
-    def get_list_players(self):
+    def get_unserial_list_players(self):
         """
         Demande la liste de tous les joueurs enregistrés dans la base de données.
         """
-        return self.controller.get_list_players()
+        return self.controller.get_unserial_list_players()
+
+    def get_unserial_tournament_in_progress(self, in_progress):
+        return self.model.unserial_tournament_in_progress(in_progress)
+        pass
 
     def get_player_exists(self, index_to_check):
         return self.controller.get_player_exists(index_to_check)
@@ -123,9 +127,9 @@ class TournamentController:
 
     def check_time_control(self, input_time_control):
         """Vérifie la validité de l'input time_control."""
-        while input_time_control != "0" \
-                and input_time_control != "1" \
-                and input_time_control != "2":
+        while input_time_control != '0' \
+                and input_time_control != '1' \
+                and input_time_control != '2':
             return self.view_son1.input_time_control("TRUE")
         else:
             return int(input_time_control)

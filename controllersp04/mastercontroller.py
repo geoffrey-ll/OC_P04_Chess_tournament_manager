@@ -26,7 +26,18 @@ class MasterController:
         self.match_controller = MatchController(self)
 
 
+    def get_unserial_list_players(self):
+        return self.player_controller.get_unserial_list_players()
+        pass
 
+    def get_unserial_players_participants(self, players_participants_in_db):
+        return self.player_controller.get_unserial_players_participants(players_participants_in_db)
+        pass
+
+    def get_unserial_tournament_in_progress(self):
+        in_progress = self.get_tournament_in_progress()
+        return self.tournament_controller.get_unserial_tournament_in_progress(in_progress)
+        pass
 
     def get_tournament_in_progress_or_not(self):
         """Pour savoir si un tournoi est en cours ou pas."""
@@ -46,8 +57,8 @@ class MasterController:
         """Demande au data_base_controller, les données du tournoi en cours."""
         return self.data_base_controller.get_tournament_in_progress()
 
-    def get_list_round(self):
-        return self.data_base_controller.get_list_round()
+    def get_list_rounds(self):
+        return self.data_base_controller.get_list_rounds()
 
     def get_round_to_do(self):
         return self.data_base_controller.get_round_to_do()
@@ -124,16 +135,11 @@ class MasterController:
     def new_tournament(self):
         """Demande les inputs pour créer un nouveau tournoi."""
         self.tournament_controller.new_tournament()
-        in_progress = self.get_tournament_in_progress()
+        in_progress = self.get_unserial_tournament_in_progress()
         self.initialize_round(in_progress)
-        self.start_round()
+        self.round_manager()
         return self.tournament_controller.display_view_manage_tournament()
 
-    def new_match(self, participant_1, participant_2):
-        return self.match_controller.new_match(participant_1, participant_2)
-
-    # def new_round(self):
-    #     return self.round_controller.new_round()
 
 
 
@@ -141,6 +147,10 @@ class MasterController:
 
     def initialize_round(self, in_progress):
         return self.round_controller.initialize_round(in_progress)
+
+    def initialize_matcs(self, matchs_in_round):
+
+        pass
 
     def start_round(self):
         return self.round_controller.start_round()
@@ -159,18 +169,14 @@ class MasterController:
     def tournament_manager(self):
         self.display_view_manage_tournament()
         print("le reste à faire IN master_controller")
-        self.data_base_controller.get_player_exists(['2', '8', '1', '7', '6', '9'])
         self.round_manager()
-        self.get_tournament_in_progress()
         return self.tournament_controller.tournament_manager()
 
 
-    def save_round(self, round_update):
-        return self.data_base_controller.save_round(round_update)
+    def save_round(self, round_to_update):
+        return self.data_base_controller.save_round(round_to_update)
 
+    def save_tournament(self, tournament_to_update):
+        return self.data_base_controller.save_tournament(tournament_to_update)
+        pass
 
-    def test(self):
-        return
-
-    def tempo_matching(self):
-        return self.round_controller.matching()

@@ -17,6 +17,14 @@ class PlayerController:
         self.model = Player(self)
         self.controller = master_controller
 
+    def get_unserial_list_players(self):
+        list_players_in_db = self.controller.get_list_players()
+        return self.model.unserial_list_players(list_players_in_db)
+        pass
+
+    def get_unserial_players_participants(self, players_participants_in_db):
+        return self.model.unserial_list_players(players_participants_in_db)
+
     def get_list_players(self):
         """
         Demande la liste de tous les joueurs enregistrés dans la base de données.
@@ -110,7 +118,7 @@ class PlayerController:
 
     def sort_players(self, sorting_option):
         """Instructions pour récupérer et trier la liste des joueurs."""
-        list_players = self.get_list_players()
+        list_players = self.get_unserial_list_players()
         if sorting_option == "DEFAULT":
             return self.model.sorting_default(list_players)
         elif sorting_option == "ALPHABETICAL":
