@@ -10,7 +10,7 @@ def main():
 
     init = MasterController()
     init.display_view_home_page()
-    # init.closing_tournament()
+    # init.reinitialize_for_test()
 
 
     pass

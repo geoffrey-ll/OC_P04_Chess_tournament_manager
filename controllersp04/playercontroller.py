@@ -4,7 +4,6 @@
 import re
 
 from modelsp04.player import Player
-
 from viewsp04.playerview import PlayerView
 
 
@@ -13,8 +12,8 @@ class PlayerController:
 
     def __init__(self, master_controller):
         """Initialise le player_ontroller."""
-        self.view = PlayerView(self)
         self.model = Player(self)
+        self.view = PlayerView(self)
         self.controller = master_controller
 
     def get_unserial_list_players(self):

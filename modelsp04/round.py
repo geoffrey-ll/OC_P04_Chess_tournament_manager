@@ -98,6 +98,13 @@ class Round:
         return self.save_round(round_to_do)
 
 
+    def change_status_round_finished(self):
+        round_to_finished = self.controller.get_unserial_round_in_progress()
+        round_to_finished.status_round = "FINISHED"
+        return self.save_round(round_to_finished)
+        pass
+
+
     def save_round(self, round_update):
         return self.controller.save_round(round_update)
         pass
@@ -133,6 +140,8 @@ class Round:
         return point_levels
         pass
 
+
+    # le sorting_levels devrait être réutilisable après flotaison des joueurs.
     def sorting_levels(self, point_levels):
         sorting_levels = {}
         for key in point_levels.keys():
@@ -233,6 +242,8 @@ class Round:
                     return "soft_white"
                 elif player.colors[-1] == "white":
                     return "soft_black"
+                elif player.colors[-1] == "exempt":
+                    return self.random_color()
 
         pass
 
@@ -269,7 +280,7 @@ class Round:
             return "level_heterogeneous"
         pass
 
-    def sorting_level_heterogeneous(self, level):
+    def sorting_level_heterogeneous(self, groups):
         return print("Il faut construire la def pour le tri des niveaux de points hetérogène !!!!")
         pass
 
@@ -322,14 +333,18 @@ class Round:
         pass
 
     def check_colors_compatibility(self, player_s1, player_s2):
-        power_str_s1 = re.findall(".+_", player_s1.pref_color)[0][:-1]
-        power_str_s2 = re.findall(".+_", player_s2.pref_color)[0][:-1]
+        if player_s1.pref_color[0] == "exempt":
+            power_s1 = self.power_str_to_int("exempt")
+        else:
+            power_str_s1 = re.findall(".+_", player_s1.pref_color)[0][:-1]
+            power_s1 = self.power_str_to_int(power_str_s1)
+        if player_s2.pref_color[0] == "exempt":
+            power_s2 = self.power_str_to_int("exempt")
+        else:
+            power_str_s2 = re.findall(".+_", player_s2.pref_color)[0][:-1]
+            power_s2 = self.power_str_to_int(power_str_s2)
 
-        power_s1 = self.power_str_to_int(power_str_s1)
         pref_color_s1 = player_s1.pref_color[-5:]
-
-
-        power_s2 = self.power_str_to_int(power_str_s2)
         pref_color_s2 = player_s2.pref_color[-5:]
 
 
@@ -360,7 +375,7 @@ class Round:
             return 2
         elif power_str == "strong":
             return 1
-        elif power_str == "soft":
+        elif power_str == "soft" or power_str == "exempt":
             return 0
         pass
 
@@ -382,7 +397,7 @@ class Round:
             if len(provisionnal_matching) == len(groups["group_s1"]):
                 return "level_matching_ok"
             else:
-                return print("Problème d'appariement dans méthode \"matching\" dans model \"round\"")
+                return print("\nProblème d'appariement dans méthode \"matching\" dans model \"round\"")
         else:
             player_have_match = []
             for match in provisionnal_matching:
@@ -397,93 +412,30 @@ class Round:
                         else:
                             continue
                     if count == 0:
+                        player.colors.append("exempt")
+                        player.opponent_index.append("exempt")
                         provisionnal_matching.append(("exempt", player))
             return "level_matching_ok"
-
-
         pass
 
+    def adding_score_match(self, matchs_round_to_close):
+        round_to_close = self.controller.get_unserial_round_in_progress()
 
-# ancien matching, avant la dé-procéduralisation.
-    # def matching(self, groups):
-    #     provisional_matching = []
-    #     players_s2_pass = []
-    #     for player_s1 in groups["group_s1"]:
-    #         count_matching = len(provisional_matching)
-    #         print("player_s1", player_s1)
-    #         for player_s2 in groups["group_s2"]:
-    #             print("\nplayer_s2\n", player_s2)
-    #             pass_or_not = ''
-    #             for provi_match in provisional_matching:
-    #                 for player_to_pass in provi_match:
-    #                     if player_s2.index == player_to_pass.index:
-    #                         pass_or_not = "pass"
-    #
-    #             if pass_or_not == "pass":
-    #                 continue
-    #
-    #             if player_s1.opponent_index != []:
-    #                 for opponent in player_s1.opponent_index:
-    #                     if player_s2.index == opponent:
-    #                         pass
-    #             if player_s1.pref_color[:8] == "absolute":
-    #                 if player_s2.pref_color[:8] == "absolute":
-    #                     if player_s1.pref_color == player_s2.pref_color:
-    #                         pass
-    #                     else:
-    #                         player_s1.colors.append(player_s1.pref_color[-5:])
-    #                         player_s2.colors.append(player_s2.pref_color[-5:])
-    #                         provisional_matching.append((player_s1, player_s2))
-    #                         players_s2_pass.append(player_s2.index)
-    #                 else:
-    #                     player_s1.colors.append(player_s1.pref_color[-5:])
-    #                     if player_s1.colors[-1] == "black":
-    #                         player_s2.colors.append("white")
-    #                     else:
-    #                         player_s2.colors.append("black")
-    #                     provisional_matching.append((player_s1, player_s2))
-    #                     players_s2_pass.append(player_s2.index)
-    #             elif player_s1.pref_color[:6] == "strong":
-    #                 if player_s2.pref_color[:8] == "absolute":
-    #                     player_s2.colors.append(player_s2.pref_color[-5:])
-    #                     if player_s2.colors[-1] == "black":
-    #                         player_s1.colors.append("white")
-    #                     else:
-    #                         player_s1.colors.append("black")
-    #                     provisional_matching.append((player_s1, player_s2))
-    #                     players_s2_pass.append(player_s2.index)
-    #                 else:
-    #                     player_s1.colors.append(player_s1.pref_color[-5:])
-    #                     if player_s1.colors[-1] == "black":
-    #                         player_s2.colors.append("white")
-    #                     else:
-    #                         player_s2.colors.append("black")
-    #                     provisional_matching.append((player_s1, player_s2))
-    #                     players_s2_pass.append(player_s2.index)
-    #             else:
-    #                 if player_s2.pref_color[:4] == "soft":
-    #                     player_s1.colors.append(player_s1.pref_color[-5:])
-    #                     if player_s1.colors[-1] == "black":
-    #                         player_s2.colors.append("white")
-    #                     else:
-    #                         player_s2.colors.append("black")
-    #                     provisional_matching.append((player_s1, player_s2))
-    #                     players_s2_pass.append(player_s2.index)
-    #                 else:
-    #                     player_s2.colors.append(player_s2.pref_color[-5:])
-    #                     if player_s2.colors[-1] == "black":
-    #                         player_s1.colors.append("white")
-    #                     else:
-    #                         player_s1.colors.append("black")
-    #                     provisional_matching.append((player_s1, player_s2))
-    #                     players_s2_pass.append(player_s2.index)
-    #             if len(provisional_matching) != count_matching:
-    #                 print("je suis entré là")
-    #                 break
-    #
-    #
-    #     print("\nprovisional\n", provisional_matching)
-    #
-    #     pass
+        for match in matchs_round_to_close:
+            try:
+                idx_a = match.participant_a["index"]
+                score_a = match.participant_a["score"]
+                round_to_close.status_participants["player_index_{}".format(idx_a)]["score"] = score_a
+            except:
+                continue
 
+            try:
+                idx_b = match.participant_b["index"]
+                score_b = match.participant_b["score"]
+                round_to_close.status_participants["player_index_{}".format(idx_b)]["score"] = score_b
+            except:
+                continue
 
+        return self.controller.save_round(round_to_close)
+
+        pass

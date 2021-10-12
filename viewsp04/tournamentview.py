@@ -114,7 +114,7 @@ class StartTournamentView(TournamentView):
         Demande à l'utilisateur le nombre de match par round du tournoi à créer.
         """
         if invalide == "FALSE":
-            input_match_in_round = input("Match in round :")
+            input_match_in_round = input("Match in round : ")
             return self.controller.check_match_in_round(input_match_in_round)
         elif invalide == "TRUE":
             print("\nInvalide answer")
@@ -153,3 +153,14 @@ class ManagerTournamentView(TournamentView):
         self.display_title2()
         print("En cours de contruction !!")
         pass
+
+
+class FinishedTournamentView(TournamentView):
+    def __init__(self, tournament_controller):
+        super().__init__(tournament_controller)
+        pass
+
+    def display_list_finished_tournaments(self):
+        pass
+
+

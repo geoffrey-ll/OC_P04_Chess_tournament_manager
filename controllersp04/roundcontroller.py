@@ -2,6 +2,8 @@
 # coding: utf-8
 
 
+import re
+
 from modelsp04.round import Round
 
 
@@ -37,6 +39,10 @@ class RoundController:
 
     def get_list_rounds(self):
         return self.controller.get_list_rounds()
+
+    def get_round_to_do_or_not(self):
+        return self.controller.get_round_to_do_or_not()
+        pass
 
     def get_round_to_do(self):
         return self.controller.get_round_to_do()
@@ -79,7 +85,8 @@ class RoundController:
     def start_round(self):
         """pour commencer un round, appariement et le reste."""
         # le self.model.change_status_round() doit rester en comm jusqu'à codage appariement terminé
-        # round_ = self.model.change_status_round()
+
+        self.model.change_status_round()
 
         data_participants = self.model.data_participants()
         point_levels = self.model.point_levels(data_participants)
@@ -88,50 +95,58 @@ class RoundController:
         data_participants_ready = self.model.prefered_colors(subgroup_levels)
         matchs_in_round = self.model.matching_manager(data_participants_ready)
 
+
         return matchs_in_round
         pass
 
     def round_manager(self):
         test = self.get_round_in_progress()
 
+
         if test == "NO_ROUND_IN_PROGRESS":
-            round_to_start = self.get_unserial_round_to_do()
-            matchs_in_round = self.start_round()
-            print("me voilàb, ", matchs_in_round)
-            self.updates(matchs_in_round)
-            self.controller.initialize_matchs(matchs_in_round)
+            test2 = self.get_round_to_do_or_not()
+            if test2 == "yes":
+                matchs_in_round = self.start_round()
+                self.updates(matchs_in_round)
+                self.controller.initialize_matchs(matchs_in_round)
+                self.controller.display_view_matchs_in_progress_round()
+            elif test2 == "not":
+                return self.controller.closing_tournament()
         else:
-            # TEMPORAIRE c'est pour tester le script sans recréer un tournoi.
-            # c'est instructions devront être déplacées dans self.start_round()
-            # ici doivent aller les instructions en cours de round (donc après l'appariement) et permettre la gestion de la round et des matchs (vainqueur, vaincu etc)
-            print("méthode round_manager IN roundcontroller")
-            return self.start_round()
-            # return self.model.matching()
+            return self.controller.display_view_matchs_in_progress_round()
+
         pass
 
     def updates(self, matchs_in_round):
         # à terme, il faudra que ce soit avec round_in_progress
-        round_to_update = self.get_unserial_round_to_do()
+        round_to_update = self.get_unserial_round_in_progress()
+        count = int(re.findall("[0-9]+", round_to_update.name)[0]) - 1
         tournament_to_update = self.get_unserial_tournament_in_progress()
 
-        for match in matchs_in_round[0]:
-            for player in match:
-                try:
-                    attr_round = round_to_update.status_participants["player_index_{}".format(player.index)]
-                    attr_tourn = tournament_to_update.status_participants["player_index_{}".format(player.index)]
+        for level_matchs in matchs_in_round:
+            for match in level_matchs:
+                for player in match:
+                    try:
+                        attr_round = round_to_update.status_participants["player_index_{}".format(player.index)]
+                        attr_tourn = tournament_to_update.status_participants["player_index_{}".format(player.index)]
 
-                    attr_round["score"] = player.score
-                    attr_round["colors"] = player.colors[0]
-                    attr_round["opponent_index"] = player.opponent_index[0]
+                        attr_round["score"] = 0
+                        attr_round["colors"] = player.colors[count]
+                        attr_round["opponent_index"] = player.opponent_index[count]
 
-                    attr_tourn["score"] += player.score
-                    attr_tourn["colors"].append(player.colors[0])
-                    attr_tourn["opponent_index"].append(player.opponent_index[0])
-                except:
-                    continue
+                        attr_tourn["score"] = player.score
+                        attr_tourn["colors"].append(player.colors[count])
+                        attr_tourn["opponent_index"].append(player.opponent_index[count])
+                    except:
+                        continue
 
         return self.save_round(round_to_update), self.save_tournament(tournament_to_update)
 
+        pass
+
+    def round_to_close(self, matchs_round_to_close):
+        self.model.adding_score_match(matchs_round_to_close)
+        return self.model.change_status_round_finished()
         pass
 
     def save_round(self, round_to_update):

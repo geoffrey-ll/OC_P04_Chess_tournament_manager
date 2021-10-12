@@ -24,7 +24,7 @@ class Tournament:
 
 
     def unserial_tournament_in_progress(self, in_progress):
-        print("\nunserial_in_progress IN tournament\n", in_progress)
+        self.tournament_in_progress = []
 
         index = in_progress["index"]
         name = in_progress["name"]
@@ -70,5 +70,30 @@ class Tournament:
 
 
 
-    def matching(self):
+    def adding_score_round(self, matchs_round_to_close):
+        in_progress = self.controller.get_unserial_tournament_in_progress()
+
+        for match in matchs_round_to_close:
+            try:
+                idx_a = match.participant_a["index"]
+                score_a = match.participant_a["score"]
+                in_progress.status_participants["player_index_{}".format(idx_a)]["score"] += score_a
+            except:
+                continue
+
+            try:
+                idx_b = match.participant_b["index"]
+                score_b = match.participant_b["score"]
+                in_progress.status_participants["player_index_{}".format(idx_b)]["score"] += score_b
+            except:
+                continue
+
+        return self.controller.save_tournament(in_progress)
+
+
+    def designate_winner_tournament(self):
+        tournament = self.controller.get_unserial_tournament_in_progress()
+        for participant in tournament.status_participants:
+            print("…")
+
         pass

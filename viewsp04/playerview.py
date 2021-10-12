@@ -69,9 +69,10 @@ class PlayerView:
                     else:
                         print(" {:<19} |".format(str(player.__getattribute__(attribut))), end='')
                 print(("\n" + "{0}"*133).format('-'))
-        self.display_options()
+
         if invalide_option is True:
             print("\nInvalide option")
+        self.display_options()
         return self.option_choice(sorting_option)
 
 

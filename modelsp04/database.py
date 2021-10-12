@@ -13,8 +13,9 @@ class DataBase:
     db = TinyDB("db.json")
     player = db.table("player")
     tournament_in_progress = db.table("tournament_in_progress")
-    tournament_finished = db.table("tournament_finished")
     round_tournament = db.table("round_tournament")
+    matchs_tournament = db.table("matchs_tournament")
+    tournament_finished = db.table("tournament_finished")
 
     def __init__(self, database_controller):
         """Initialisation de la base de données"""
@@ -38,21 +39,21 @@ class DataBase:
         else:
             return "no empty"
 
+    def get_round_to_do_or_not(self):
+        count = 0
+        for round in self.round_tournament:
+            if round["status_round"] == "TO_DO":
+                count += 1
+        if count != 0:
+            return "yes"
+        if count == 0:
+            return "not"
+        pass
+
     def get_tournament_in_progress(self):
         """Renvoi les données du tournoi en cours."""
-        print("\ntest in db\n")
         for element in self.tournament_in_progress:
-            print(element)
             return element
-
-        print("\ntest 2\n")
-        for element2 in self.tournament_in_progress.search(Query().time_control == 0):
-            print(element2)
-
-        print("\ntest 3\n")
-        for element3 in self.tournament_in_progress.search(Query().controller == "tournament_controller"):
-            print(element3)
-
 
 
 
@@ -64,7 +65,7 @@ class DataBase:
             if round["status_round"] == "TO_DO":
                 return round
             else:
-                pass
+                return "no round to do"
 
     def get_round_in_progress(self):
         for round in self.round_tournament:
@@ -73,6 +74,22 @@ class DataBase:
             else:
                 pass
         return "NO_ROUND_IN_PROGRESS"
+        pass
+
+    def get_matchs_current_round(self):
+        current_round = self.get_round_in_progress()
+        number_current_round = re.findall("[0-9]+", current_round["name"])[0]
+        matchs_current_round = []
+        for match in self.matchs_tournament:
+            try:
+                if match["name"] == re.findall("match_{}.+".format(number_current_round), match["name"])[0]:
+                    matchs_current_round.append(match)
+            except:
+                continue
+        if matchs_current_round != []:
+            return matchs_current_round
+        else:
+            return "NO_MATCHS_CURRENT_ROUND"
         pass
 
     def get_status_participants(self):
@@ -123,6 +140,10 @@ class DataBase:
             return "TRUE"
         pass
 
+    def get_numbers_matchs_current_round(self):
+
+        pass
+
 
     def add_player(self, new_player):
         """Ajoute le nouveau joueur dans la base de données."""
@@ -146,12 +167,21 @@ class DataBase:
             self.round_tournament.insert(dic)
         pass
 
+    def add_matchs(self, list_matchs_in_round):
+        dic = {}
+        for match in list_matchs_in_round:
+            for key, value in match.__dict__.items():
+                dic[key] = value
+            self.matchs_tournament.insert(dic)
+        pass
 
-    def closing_tournament(self):
-        """Pour transférer le tournoi clôturé vers les tournois finis."""
-        # self.tournament_finished.insert(self.tournament_in_progress)
-        self.round_tournament.truncate()
-        return self.tournament_in_progress.truncate()
+
+    def save_match(self, match_to_update):
+        update = {}
+        for key, value in  match_to_update.__dict__.items():
+            update[key] = value
+        self.matchs_tournament.update(update, where("name") == update["name"])
+        pass
 
     def save_round(self, round_to_update):
         update = {}
@@ -161,9 +191,31 @@ class DataBase:
         pass
 
     def save_tournament(self, tournament_to_update):
-        print(tournament_to_update)
         update = {}
         for key, value in tournament_to_update.__dict__.items():
             update[key] = value
         self.tournament_in_progress.update(update, where("name") == update["name"])
         pass
+
+
+    def transfer_tournament_to_finished(self):
+        tournament_to_close = self.tournament_in_progress.search(Query().controller == "tournament_controller")
+        rounds_tournament = self.round_tournament.search(Query().controller == "round_controller")
+        matchs_tournament = self.matchs_tournament.search(Query().controller == "match_controller")
+        return self.tournament_finished.insert({"tournament": tournament_to_close[0], "rounds": rounds_tournament, "matchs": matchs_tournament})
+        pass
+
+    def purge_tournament_in_progress(self):
+        self.tournament_in_progress.truncate()
+        self.round_tournament.truncate()
+        return self.matchs_tournament.truncate()
+        pass
+
+
+    def reinitialize_for_test(self):
+        """Pour transférer le tournoi clôturé vers les tournois finis."""
+        # self.tournament_finished.insert(self.tournament_in_progress)
+        self.round_tournament.truncate()
+        self.matchs_tournament.truncate()
+        self.tournament_in_progress.truncate()
+        # return self.tournament_finished.truncate()

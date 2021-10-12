@@ -57,6 +57,7 @@ class HomePageView:
             elif status == "no empty":
                 return self.controller.tournament_manager()
         elif user_input == "1":
+            return self.controller.display_view_list_finished_tournament()
             pass
         elif user_input == "2":
             return self.controller.display_view_list_players()

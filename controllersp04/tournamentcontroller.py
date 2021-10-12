@@ -9,6 +9,7 @@ from modelsp04.tournament import Tournament
 from viewsp04.tournamentview import TournamentView
 from viewsp04.tournamentview import StartTournamentView
 from viewsp04.tournamentview import ManagerTournamentView
+from viewsp04.tournamentview import FinishedTournamentView
 
 
 class TournamentController:
@@ -19,6 +20,7 @@ class TournamentController:
         self.view = TournamentView(self)
         self.view_son1 = StartTournamentView(self)
         self.view_son2 = ManagerTournamentView(self)
+        self.view_son3 = FinishedTournamentView(self)
         self.controller = master_controller
         pass
 
@@ -28,7 +30,8 @@ class TournamentController:
         """
         return self.controller.get_unserial_list_players()
 
-    def get_unserial_tournament_in_progress(self, in_progress):
+    def get_unserial_tournament_in_progress(self):
+        in_progress = self.controller.get_tournament_in_progress()
         return self.model.unserial_tournament_in_progress(in_progress)
         pass
 
@@ -43,10 +46,17 @@ class TournamentController:
         # input_new_tournament = self.view_son1.display_view_start_tournament()
         # return self.add_tournament_in_progress(input_new_tournament)
 
-    def display_view_finished_tournaments(self):
-        input_new_tournament = "todo"
+    def display_winner_tournament(self):
+        # mettre un input pour permettre une pause dans l'affichage
+        # quelque soit l'input, passer à la suite du script
+        # self.view.display_winner_tournament()
         pass
-        return self.add_tournament_finished(input_new_tournament)
+
+    def display_view_list_finished_tournaments(self):
+        return self.view
+        pass
+        # serait cool de pouvoir ajouter des tournois gérer sans le script
+        # return self.add_tournament_finished(input_new_tournament)
 
     def display_view_manage_tournament(self):
         return self.view_son2.display_view_manager_tournament()
@@ -80,9 +90,6 @@ class TournamentController:
 
         return self.add_tournament_in_progress(new_tournament)
 
-    # def new_round(self):
-    #     return self.controller.new_round()
-    #     pass
 
     def check_name(self, input_name):
         if input_name == '':
@@ -142,7 +149,9 @@ class TournamentController:
             return input_description
 
 
-
+    def adding_score_round(self, matchs_round_to_close):
+        return self.model.adding_score_round(matchs_round_to_close)
+        pass
 
     def tournament_manager(self):
         pass
@@ -162,8 +171,17 @@ class TournamentController:
     #     pass
 
 
+    def designate_winner_tournament(self):
+        return self.model.designate_winner_tournament()
+        pass
 
 
     def tempo_matching(self, tournament_in_progress):
         self.controller.tempo_matching()
         pass
+
+
+    def save_tournament(self, tournament_to_update):
+        return self.controller.save_tournament(tournament_to_update)
+        pass
+
