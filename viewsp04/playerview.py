@@ -20,7 +20,7 @@ class PlayerView:
     @staticmethod
     def display_title_2():
         """Affichage du titre niveau 2."""
-        display_title_2 = "Liste des joueurs"
+        display_title_2 = "List of players"
         return print("{:^202}".format(display_title_2))
 
     @staticmethod
@@ -28,11 +28,11 @@ class PlayerView:
         """Affichage des headers."""
         list_headers = ["Index", "First name", "Last name",
                         "Date of birth", "Gender", "Current Elo"]
-        print(("{0}"*133).format('-'))
+        print(("{0}"*139).format('-'))
         print('|', end='')
         for values in list_headers:
-            print("{:^20} |".format(values), end='')
-        print(("\n" + "{0}"*133).format('-'))
+            print(" {:^20} |".format(values), end='')
+        print(("\n" + "{0}"*139).format('-'))
 
     def display_player(self):
         """Affichage des donnés d'un joueur."""
@@ -65,10 +65,10 @@ class PlayerView:
                     if attribut == "controller":
                         pass
                     elif attribut == "current_elo":
-                        print(" {:<19} |".format(int(-player.__getattribute__(attribut))), end='')
+                        print(" {:<20} |".format(int(-player.__getattribute__(attribut))), end='')
                     else:
-                        print(" {:<19} |".format(str(player.__getattribute__(attribut))), end='')
-                print(("\n" + "{0}"*133).format('-'))
+                        print(" {:<20} |".format(str(player.__getattribute__(attribut))), end='')
+                print(("\n" + "{0}"*139).format('-'))
 
         if invalide_option is True:
             print("\nInvalide option")

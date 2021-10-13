@@ -61,6 +61,10 @@ class MasterController:
         """
         return self.data_base_controller.get_list_players()
 
+    def get_data_player(self, index_participant):
+        return self.data_base_controller.get_data_player(index_participant)
+        pass
+
     def get_len_players_in_db(self):
         """Demande au data_base_controller le nombre de joeurs enregistrées."""
         return self.data_base_controller.get_len_players_in_db()
@@ -68,6 +72,14 @@ class MasterController:
     def get_tournament_in_progress(self):
         """Demande au data_base_controller, les données du tournoi en cours."""
         return self.data_base_controller.get_tournament_in_progress()
+
+    def get_tournaments_finished(self):
+        return self.data_base_controller.get_tournaments_finished()
+        pass
+
+    def get_len_tournaments_finished(self):
+        return self.data_base_controller.get_len_tournaments_finished()
+        pass
 
     def get_list_rounds(self):
         return self.data_base_controller.get_list_rounds()
@@ -193,7 +205,6 @@ class MasterController:
 
 
     def tournament_manager(self):
-        print("le reste à faire IN master_controller")
         self.display_view_manage_tournament()
         return self.round_manager()
         pass
@@ -224,10 +235,10 @@ class MasterController:
 
     def closing_tournament(self):
         """"""
-        self.tournament_controller.designate_winner_tournament()
+        winner = self.tournament_controller.designate_winner_tournament()
         self.data_base_controller.transfer_tournament_to_finished()
         self.data_base_controller.purge_tournament_in_progress()
-        self.tournament_controller.display_winner_tournament()
+        # self.tournament_controller.display_winner_tournament(winner)
         self.display_view_home_page()
 
 

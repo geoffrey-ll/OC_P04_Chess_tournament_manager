@@ -86,17 +86,21 @@ class RoundController:
         """pour commencer un round, appariement et le reste."""
         # le self.model.change_status_round() doit rester en comm jusqu'à codage appariement terminé
 
-        self.model.change_status_round()
+        round_name = self.model.change_status_round()
 
         data_participants = self.model.data_participants()
-        point_levels = self.model.point_levels(data_participants)
-        sorting_levels = self.model.sorting_levels(point_levels)
-        subgroup_levels = self.model.subgroups(sorting_levels)
-        data_participants_ready = self.model.prefered_colors(subgroup_levels)
-        matchs_in_round = self.model.matching_manager(data_participants_ready)
+        # point_levels = self.model.point_levels(data_participants)
+        sorted_participants = self.model.sorting_participants(data_participants)
+        if round_name == "round_1":
+            subgroup_participants = self.model.subgroups(sorted_participants)
+            matching = self.model.matching_round_1(subgroup_participants)
+        else:
+            matching = self.model.matching_other_round(sorted_participants)
+        # data_participants_ready = self.model.prefered_colors(subgroup_levels)
+        # matchs_in_round = self.model.matching_manager(data_participants_ready)
 
 
-        return matchs_in_round
+        return matching
         pass
 
     def round_manager(self):
@@ -106,9 +110,9 @@ class RoundController:
         if test == "NO_ROUND_IN_PROGRESS":
             test2 = self.get_round_to_do_or_not()
             if test2 == "yes":
-                matchs_in_round = self.start_round()
-                self.updates(matchs_in_round)
-                self.controller.initialize_matchs(matchs_in_round)
+                matching = self.start_round()
+                self.updates(matching)
+                self.controller.initialize_matchs(matching)
                 self.controller.display_view_matchs_in_progress_round()
             elif test2 == "not":
                 return self.controller.closing_tournament()
@@ -117,28 +121,27 @@ class RoundController:
 
         pass
 
-    def updates(self, matchs_in_round):
+    def updates(self, matching):
         # à terme, il faudra que ce soit avec round_in_progress
         round_to_update = self.get_unserial_round_in_progress()
         count = int(re.findall("[0-9]+", round_to_update.name)[0]) - 1
         tournament_to_update = self.get_unserial_tournament_in_progress()
 
-        for level_matchs in matchs_in_round:
-            for match in level_matchs:
-                for player in match:
-                    try:
-                        attr_round = round_to_update.status_participants["player_index_{}".format(player.index)]
-                        attr_tourn = tournament_to_update.status_participants["player_index_{}".format(player.index)]
+        for match in matching:
+            for player in match:
+                try:
+                    attr_round = round_to_update.status_participants["player_index_{}".format(player.index)]
+                    attr_tourn = tournament_to_update.status_participants["player_index_{}".format(player.index)]
 
-                        attr_round["score"] = 0
-                        attr_round["colors"] = player.colors[count]
-                        attr_round["opponent_index"] = player.opponent_index[count]
+                    attr_round["score"] = 0
+                    attr_round["colors"] = player.colors[count]
+                    attr_round["opponent_index"] = player.opponent_index[count]
 
-                        attr_tourn["score"] = player.score
-                        attr_tourn["colors"].append(player.colors[count])
-                        attr_tourn["opponent_index"].append(player.opponent_index[count])
-                    except:
-                        continue
+                    attr_tourn["score"] = player.score
+                    attr_tourn["colors"].append(player.colors[count])
+                    attr_tourn["opponent_index"].append(player.opponent_index[count])
+                except:
+                    continue
 
         return self.save_round(round_to_update), self.save_tournament(tournament_to_update)
 

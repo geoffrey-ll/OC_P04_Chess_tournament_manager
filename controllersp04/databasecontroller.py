@@ -21,6 +21,10 @@ class DataBaseController:
         """
         return self.model.get_list_players()
 
+    def get_data_player(self, index_participant):
+        return self.model.get_data_player(index_participant)
+        pass
+
     def get_len_players_in_db(self):
         """Demande le nombre de joueurs enregistrées dans la base de données."""
         return self.model.get_len_players_in_db()
@@ -36,6 +40,14 @@ class DataBaseController:
     def get_tournament_in_progress(self):
         """Demande les données du tournoi en cours."""
         return self.model.get_tournament_in_progress()
+
+    def get_tournaments_finished(self):
+        return self.model.get_tournaments_finished()
+        pass
+
+    def get_len_tournaments_finished(self):
+        return self.model.get_len_tournaments_finished()
+        pass
 
     def get_list_rounds(self):
         return self.model.get_list_rounds()

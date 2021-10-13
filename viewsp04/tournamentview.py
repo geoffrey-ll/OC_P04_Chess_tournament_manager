@@ -42,6 +42,10 @@ class StartTournamentView(TournamentView):
         pass
 
 
+    def get_len_tournaments_finished(self):
+        len_finished =  self.controller.get_len_tournaments_finished()
+        return len_finished
+        pass
 
     @staticmethod
     def display_title_2():
@@ -66,10 +70,12 @@ class StartTournamentView(TournamentView):
                 print("{:15}[{}] : {}".format('', idx, value))
         return ''
 
-    @staticmethod
-    def display_description_default():
+    def display_description_default(self):
         """Affichage de la description par défaut."""
-        return "Tournament n°{} of 2021.".format("xx")
+        len_finished = self.get_len_tournaments_finished()
+
+        len_in_progress = len_finished + 1
+        return "Tournament n°{} of 2021.".format(len_in_progress)
 
 
     def input_name(self, invalide="FALSE"):
@@ -97,7 +103,7 @@ class StartTournamentView(TournamentView):
             input_participants = input("Participants (player index) : ")
             return self.controller.check_participant(input_participants)
         elif invalide == "TRUE":
-            print("Some participants were not found")
+            print("\nSome participants were not found")
             return self.input_participant()
 
     def input_round(self, invalide="FALSE"):
@@ -144,14 +150,20 @@ class ManagerTournamentView(TournamentView):
         super().__init__(tournament_controller)
 
     @staticmethod
-    def display_title2():
-        display_title_2 = "Tournament manager"
-        return print("{:^202}".format(display_title_2))
+    def display_title_manager():
+        display_title_manager = "Tournament manager"
+        return print("{:^202}".format(display_title_manager))
 
     def display_view_manager_tournament(self):
         self.display_title_1()
-        self.display_title2()
-        print("En cours de contruction !!")
+        self.display_title_manager()
+        pass
+
+    def display_winner_tournament(self, winner):
+        self.display_view_manager_tournament()
+        print(winner)
+        input()
+
         pass
 
 
@@ -160,7 +172,73 @@ class FinishedTournamentView(TournamentView):
         super().__init__(tournament_controller)
         pass
 
-    def display_list_finished_tournaments(self):
+    def get_unserial_tournaments_finished(self):
+        return self.controller.get_unserial_tournaments_finished()
+        pass
+
+    @staticmethod
+    def display_title_finished():
+        display_title_finished = "List of tournaments finished"
+        return print("{:^202}".format(display_title_finished))
+        pass
+
+    def display_view_no_tournament_finished(self):
+        self.display_title_1()
+        self.display_title_finished()
+        print("No finished tournaments in the database")
+        return self.display_options()
+
+    def display_headers(self):
+        headers_line_1 = ["Index", "Name", "Place", "Round", "Time control", "List participants", "Description"]
+        headers_line_2 = "(Id Last First Score)"
+        print(("{0}"*152).format('-'))
+        print('|', end='')
+        for header in headers_line_1:
+            if header == "Index" or header == "Round":
+                print(" {:^5} |".format(header), end='')
+            elif header == "List participants" or header == "Description":
+                print(" {:^30} |".format(header), end='')
+            else:
+                print(" {:^20} |".format(header), end='')
+        print("\n|{0}|{1}|{1}|{0}|{1}|{2:^32}|{3}|".format(' '*7, ' '*22, headers_line_2, ' '*32))
+        print(("{0}"*152).format('-'))
+        pass
+
+    def display_options(self):
+        list_options = ["Return to home page"]
+
+        print("\n")
+        print("[R] : {}".format(list_options[0]))
+        pass
+
+    def option_choice(self):
+        user_input = input().capitalize()
+
+        if user_input == "R":
+            return self.controller.display_view_home_page()
+        pass
+
+
+    def display_view_list_finished_tournaments(self):
+        self.display_title_1()
+        self.display_title_finished()
+        self.display_headers()
+        list_finished_tournaments = self.get_unserial_tournaments_finished()
+
+        for tournament in list_finished_tournaments:
+            for count in range(len(tournament.index)):
+                for attribut in tournament.__dict__.keys():
+                    if attribut == "len_participants" \
+                            or attribut == "controller":
+                        continue
+                    else:
+                        values = tournament.__getattribute__(attribut)
+                        print(values[count], end='')
+                print("")
+            print(("{0}"*152).format('-'))
+
+        self.display_options()
+        return self.option_choice()
         pass
 
 

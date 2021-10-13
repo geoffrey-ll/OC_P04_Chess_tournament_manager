@@ -51,8 +51,9 @@ class MatchView:
                     list_matchs[count].participant_a["last_name"] + ' ' + list_matchs[count].participant_a["first_name"] + "  [G]",
                     "[D]  " + list_matchs[count].participant_b["last_name"] + ' ' + list_matchs[count].participant_b["first_name"],
                     ' '*20,
-                    list_matchs[count + 1].participant_a,
-                    list_matchs[count + 1].participant_b["last_name"] + ' ' + list_matchs[count + 1].participant_b["first_name"]
+                    # MODIF ICI DESSOUS
+                    list_matchs[count + 1].participant_a["last_name"] + ' ' + list_matchs[count + 1].participant_a["first_name"],
+                    list_matchs[count + 1].participant_b["exempt"]
                 ))
 
             try:
@@ -65,12 +66,13 @@ class MatchView:
                     "(Elo)  " + str(- list_matchs[count + 1].participant_b["current_elo"])
                 ))
             except:
-                print("{0}| {1:<33}{2:>33} |{3}| {4:>66} |".format(
+                print("{0}| {1:<33}{2:>33} |{3}| {4:<66} |".format(
                     ' ' * 5,
                     str(- list_matchs[count].participant_a["current_elo"]) + "  (Elo)",
                     "(Elo)  " + str(- list_matchs[count].participant_b["current_elo"]),
-                    ' ' * 20,
-                    "(Elo)  " + str(- list_matchs[count + 1].participant_b["current_elo"])
+                    # MODIF ICI DESSOUS
+                    str(- list_matchs[count + 1].participant_a["current_elo"]) + "  (Elo)",
+                    ' ' * 20
                 ))
 
             try:
@@ -83,12 +85,13 @@ class MatchView:
                     "(Score)  " + str(list_matchs[count + 1].participant_b["score"])
                 ))
             except:
-                print("{0}| {1:<33}{2:>33} |{3}| {4:>66} |".format(
+                print("{0}| {1:<33}{2:>33} |{3}| {4:<66} |".format(
                     ' ' * 5,
                     str(list_matchs[count].participant_a["score"]) + "  (Score)",
                     "(Score)  " + str(list_matchs[count].participant_b["score"]),
-                    ' ' * 20,
-                    "(Score)  " + str(list_matchs[count + 1].participant_b["score"])
+                    # MODIF ICI DESSOUS
+                    str(list_matchs[count + 1].participant_a["score"]) + "  (Score)",
+                    ' ' * 20
                 ))
 
             try:
@@ -101,12 +104,13 @@ class MatchView:
                     "(Color)  " + str(list_matchs[count + 1].participant_b["colors"])
                 ))
             except:
-                print("{0}| {1:<33}{2:>33} |{3}| {4:>66} |".format(
+                print("{0}| {1:<33}{2:>33} |{3}| {4:<66} |".format(
                     ' ' * 5,
                     str(list_matchs[count].participant_a["colors"]) + "  (Color)",
                     "(Color)  " + str(list_matchs[count].participant_b["colors"]),
+                    # MODIF ICI DESSOUS
+                    str(list_matchs[count + 1].participant_a["colors"]) + "  (Color)",
                     ' ' * 20,
-                    "(Color)  " + str(list_matchs[count + 1].participant_b["colors"])
                 ))
 
             print("{0}|{1:^68}|{2}|{3:^68}|".format(
@@ -144,10 +148,11 @@ class MatchView:
                     "[D]  " + list_matchs[count].participant_b["last_name"] + ' ' + list_matchs[count].participant_b["first_name"]
                 ))
             except:
-                print("{0}| {1:<31}{2:>32} |".format(
+                print("{0}| {1:<33}{2:>33} |".format(
                     ' '*5,
-                    list_matchs[count].participant_a,
-                    list_matchs[count].participant_b["last_name"] + ' ' + list_matchs[count].participant_b["first_name"]
+                    # MODIF ICI DESSOUS
+                    list_matchs[count].participant_a["last_name"] + ' ' + list_matchs[count].participant_a["first_name"],
+                    list_matchs[count].participant_b["exempt"]
                 ))
 
             try:
@@ -157,9 +162,10 @@ class MatchView:
                     "(Elo)  " + str(- list_matchs[count].participant_b["current_elo"])
                 ))
             except:
-                print("{0}| {1:>66} |".format(
+                print("{0}| {1:<66} |".format(
                     ' '*5,
-                    "(Elo)  " + str(- list_matchs[count].participant_b["current_elo"])
+                    # MODIF ICI DESSOUS
+                    str(- list_matchs[count].participant_a["current_elo"]) + "  (Elo)"
                 ))
 
             try:
@@ -169,21 +175,23 @@ class MatchView:
                     "(Score)  " + str(list_matchs[count].participant_b["score"])
                 ))
             except:
-                print("{0}| {1:>66} |".format(
+                print("{0}| {1:<66} |".format(
                     ' '*5,
-                    "(Score)  " + str(list_matchs[count].participant_b["score"])
+                    # MODIF ICI DESSOUS
+                    str(list_matchs[count].participant_a["score"]) + "  (Score)"
                 ))
 
             try:
                 print("{0}| {1:<33}{2:>33} |".format(
                     ' ' * 5,
-                    str(list_matchs[count].participant_a["colors"]) + "(Color)  ",
+                    str(list_matchs[count].participant_a["colors"]) + " (Color)  ",
                     "(Color)  " + str(list_matchs[count].participant_b["colors"])
                 ))
             except:
-                print("{0}| {1:>66} |".format(
+                print("{0}| {1:<66} |".format(
                     ' '*5,
-                    "(Color)  " + str(list_matchs[count].participant_b["colors"])
+                    # MODIF ICI DESSOUS
+                    str(list_matchs[count].participant_a["colors"]) + "  (Color)"
                 ))
 
             print("{0}|{1:^68}|".format(

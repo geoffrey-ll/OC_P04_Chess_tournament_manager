@@ -36,31 +36,34 @@ class Match:
         pass
 
 
-    def initialize_matchs(self, matchs_in_round):
+    def initialize_matchs(self, matching):
         self.list_matchs_in_round = []
         round_in_progress = self.controller.get_unserial_round_in_progress()
         count = int(re.findall("[0-9]+", round_in_progress.name)[0]) - 1
-        for level_matchs in matchs_in_round:
-            for match in level_matchs:
+        for match in matching:
 
-                name = self.name_of_match()
-                if match[0] == "exempt" or match[1] == "exempt":
-                    status_match = "FINISHED"
-                else:
-                    status_match = "IN_PROGRESS"
+            name = self.name_of_match()
+            if match[0] == "exempt" or match[1] == "exempt":
+                status_match = "FINISHED"
+            else:
+                status_match = "IN_PROGRESS"
 
-                participant_a = self.which_participant(match[0], count)
-                participant_b = self.which_participant(match[1], count)
+            participant_a = self.which_participant(match[0], count)
+            participant_b = self.which_participant(match[1], count)
 
-                if participant_a == "exempt":
-                    winner_index = participant_b["index"]
-                elif participant_b == "exempt":
-                    winner_index = participant_a["index"]
-                else:
-                    winner_index = int()
+            if participant_a == "exempt":
+                winner_index = participant_b["index"]
+                participant_a = {}
+                participant_a["exempt"] = "exempt"
+            elif participant_b == "exempt":
+                winner_index = participant_a["index"]
+                participant_b = {}
+                participant_b["exempt"] = "exempt"
+            else:
+                winner_index = int()
 
-                ini = Match("match_controller", name, status_match, participant_a, participant_b, winner_index)
-                self.list_matchs_in_round.append(ini)
+            ini = Match("match_controller", name, status_match, participant_a, participant_b, winner_index)
+            self.list_matchs_in_round.append(ini)
 
         return self.add_matchs()
 

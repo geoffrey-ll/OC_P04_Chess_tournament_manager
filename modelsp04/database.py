@@ -15,7 +15,7 @@ class DataBase:
     tournament_in_progress = db.table("tournament_in_progress")
     round_tournament = db.table("round_tournament")
     matchs_tournament = db.table("matchs_tournament")
-    tournament_finished = db.table("tournament_finished")
+    tournaments_finished = db.table("tournament_finished")
 
     def __init__(self, database_controller):
         """Initialisation de la base de données"""
@@ -24,6 +24,10 @@ class DataBase:
     def get_list_players(self):
         """Renvoi la liste de tous les joueurs de la base de données."""
         return self.player.search(Query().controller == "player_controller")
+
+    def get_data_player(self, index_participant):
+        return self.player.search(Query().index == int(index_participant))
+        pass
 
     def get_len_players_in_db(self):
         """
@@ -55,6 +59,17 @@ class DataBase:
         for element in self.tournament_in_progress:
             return element
 
+    def get_tournaments_finished(self):
+        return self.tournaments_finished.search(Query().controller == "finished_controller")
+        pass
+
+    def get_len_tournaments_finished(self):
+        if self.tournaments_finished == []:
+            return 0
+        else:
+            return len(self.tournaments_finished)
+        pass
+
 
 
     def get_list_rounds(self):
@@ -65,14 +80,15 @@ class DataBase:
             if round["status_round"] == "TO_DO":
                 return round
             else:
-                return "no round to do"
+                continue
+        return "no round to do"
 
     def get_round_in_progress(self):
         for round in self.round_tournament:
             if round["status_round"] == "IN_PROGRESS":
                 return round
             else:
-                pass
+                continue
         return "NO_ROUND_IN_PROGRESS"
         pass
 
@@ -171,7 +187,18 @@ class DataBase:
         dic = {}
         for match in list_matchs_in_round:
             for key, value in match.__dict__.items():
-                dic[key] = value
+                if key == "participant_a" or key == "participant_b":
+                    dic[key] = {}
+                    try:
+                        for subkey, data in value.items():
+                            if subkey == "current_elo":
+                                dic[key][subkey] = -data
+                            else:
+                                dic[key][subkey] = data
+                    except:
+                        continue
+                else:
+                    dic[key] = value
             self.matchs_tournament.insert(dic)
         pass
 
@@ -202,7 +229,7 @@ class DataBase:
         tournament_to_close = self.tournament_in_progress.search(Query().controller == "tournament_controller")
         rounds_tournament = self.round_tournament.search(Query().controller == "round_controller")
         matchs_tournament = self.matchs_tournament.search(Query().controller == "match_controller")
-        return self.tournament_finished.insert({"tournament": tournament_to_close[0], "rounds": rounds_tournament, "matchs": matchs_tournament})
+        return self.tournaments_finished.insert({"controller": "finished_controller", "tournament": tournament_to_close[0], "rounds": rounds_tournament, "matchs": matchs_tournament})
         pass
 
     def purge_tournament_in_progress(self):
@@ -213,9 +240,8 @@ class DataBase:
 
 
     def reinitialize_for_test(self):
-        """Pour transférer le tournoi clôturé vers les tournois finis."""
-        # self.tournament_finished.insert(self.tournament_in_progress)
+        """Pour réinitialiser pour tester le script."""
         self.round_tournament.truncate()
         self.matchs_tournament.truncate()
         self.tournament_in_progress.truncate()
-        # return self.tournament_finished.truncate()
+        # return self.tournaments_finished.truncate()
