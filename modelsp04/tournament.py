@@ -204,7 +204,7 @@ class TournamentFinished:
         self.list_finished_tournaments = []
 
         if list_finished == []:
-            self.controller.display_view_no_tournament_finished()
+            return "EMPTY"
 
         for tournament in list_finished:
             len_participants = self.get_len_participants(tournament)

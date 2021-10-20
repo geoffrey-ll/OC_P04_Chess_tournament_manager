@@ -14,7 +14,7 @@ class PlayerView:
     @staticmethod
     def display_title_1():
         """Affichage du titre niveau 1."""
-        display_title_1 = "Tournoi d'échec du club OpenClassrooms"
+        display_title_1 = "OpenClassrooms chess club"
         return print("{:^202}".format(display_title_1))
 
     @staticmethod

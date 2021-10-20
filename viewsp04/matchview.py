@@ -71,8 +71,8 @@ class MatchView:
                     str(- list_matchs[count].participant_a["current_elo"]) + "  (Elo)",
                     "(Elo)  " + str(- list_matchs[count].participant_b["current_elo"]),
                     # MODIF ICI DESSOUS
+                    ' ' * 20,
                     str(- list_matchs[count + 1].participant_a["current_elo"]) + "  (Elo)",
-                    ' ' * 20
                 ))
 
             try:
@@ -90,8 +90,8 @@ class MatchView:
                     str(list_matchs[count].participant_a["score"]) + "  (Score)",
                     "(Score)  " + str(list_matchs[count].participant_b["score"]),
                     # MODIF ICI DESSOUS
+                    ' ' * 20,
                     str(list_matchs[count + 1].participant_a["score"]) + "  (Score)",
-                    ' ' * 20
                 ))
 
             try:
@@ -109,8 +109,8 @@ class MatchView:
                     str(list_matchs[count].participant_a["colors"]) + "  (Color)",
                     "(Color)  " + str(list_matchs[count].participant_b["colors"]),
                     # MODIF ICI DESSOUS
-                    str(list_matchs[count + 1].participant_a["colors"]) + "  (Color)",
                     ' ' * 20,
+                    str(list_matchs[count + 1].participant_a["colors"]) + "  (Color)",
                 ))
 
             print("{0}|{1:^68}|{2}|{3:^68}|".format(

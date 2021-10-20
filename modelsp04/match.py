@@ -133,10 +133,11 @@ class Match:
             else:
                 match.participant_b["score"] = 0
 
-            if match.participant_a["opponent_index"] == "exempt":
-                match.participant_a["score"] = 1
-            if match.participant_b["opponent_index"] == "exempt":
-                match.participant_b["score"] = 1
+            # Attribution du point pour les exempt faites lors de l'appairiement
+            # if match.participant_a["opponent_index"] == "exempt":
+            #     match.participant_a["score"] = 1
+            # if match.participant_b["opponent_index"] == "exempt":
+            #     match.participant_b["score"] = 1
         pass
 
 

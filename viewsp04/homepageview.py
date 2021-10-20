@@ -12,13 +12,13 @@ class HomePageView:
     @staticmethod
     def display_title_1():
         """Affichage du titre niveau 1."""
-        display_title_1 = "Tournoi d'échec du club OpenClassrooms"
+        display_title_1 = "OpenClassrooms chess club"
         return print("{:^202}".format(display_title_1))
 
     @staticmethod
     def display_title_2():
         """Affichage du titre niveau 2."""
-        display_title_2 = "Accueil"
+        display_title_2 = "Home page"
         return print("{:^202}".format(display_title_2))
 
     def display_options(self, status):
@@ -64,4 +64,4 @@ class HomePageView:
         elif user_input == "3":
             quit()
         else:
-            print("Option invalide.")
+            print("Invalid option.")

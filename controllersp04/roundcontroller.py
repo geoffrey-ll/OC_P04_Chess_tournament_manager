@@ -89,15 +89,12 @@ class RoundController:
         round_name = self.model.change_status_round()
 
         data_participants = self.model.data_participants()
-        # point_levels = self.model.point_levels(data_participants)
         sorted_participants = self.model.sorting_participants(data_participants)
         if round_name == "round_1":
             subgroup_participants = self.model.subgroups(sorted_participants)
             matching = self.model.matching_round_1(subgroup_participants)
         else:
             matching = self.model.matching_other_round(sorted_participants)
-        # data_participants_ready = self.model.prefered_colors(subgroup_levels)
-        # matchs_in_round = self.model.matching_manager(data_participants_ready)
 
 
         return matching

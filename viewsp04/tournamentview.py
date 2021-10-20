@@ -27,7 +27,7 @@ class TournamentView:
 
     @staticmethod
     def display_title_1():
-        display_title_1 = "Tournoi d'échec du club OpenClassrooms"
+        display_title_1 = "OpenClassrooms chess club"
         return print("{:^202}".format(display_title_1))
 
     def display_view_finished_tournaments(self):
@@ -186,7 +186,8 @@ class FinishedTournamentView(TournamentView):
         self.display_title_1()
         self.display_title_finished()
         print("No finished tournaments in the database")
-        return self.display_options()
+        self.display_options()
+        return self.option_choice()
 
     def display_headers(self):
         headers_line_1 = ["Index", "Name", "Place", "Round", "Time control", "List participants", "Description"]
@@ -225,20 +226,23 @@ class FinishedTournamentView(TournamentView):
         self.display_headers()
         list_finished_tournaments = self.get_unserial_tournaments_finished()
 
-        for tournament in list_finished_tournaments:
-            for count in range(len(tournament.index)):
-                for attribut in tournament.__dict__.keys():
-                    if attribut == "len_participants" \
-                            or attribut == "controller":
-                        continue
-                    else:
-                        values = tournament.__getattribute__(attribut)
-                        print(values[count], end='')
-                print("")
-            print(("{0}"*152).format('-'))
+        if list_finished_tournaments == "EMPTY":
+            return self.display_view_no_tournament_finished()
+        else:
+            for tournament in list_finished_tournaments:
+                for count in range(len(tournament.index)):
+                    for attribut in tournament.__dict__.keys():
+                        if attribut == "len_participants" \
+                                or attribut == "controller":
+                            continue
+                        else:
+                            values = tournament.__getattribute__(attribut)
+                            print(values[count], end='')
+                    print("")
+                print(("{0}"*152).format('-'))
 
-        self.display_options()
-        return self.option_choice()
+            self.display_options()
+            return self.option_choice()
         pass
 
 
