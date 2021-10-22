@@ -17,6 +17,7 @@
 
 # openclassrooms_chess_club.py #
 
+AJOUTER SECTION RAPPORT FLAKE8
 
 1.  [Description](#description)
 2.  [Utilisation](#utilisation)
@@ -24,6 +25,7 @@
     2.  [Start a tournament](#START-A-TOURNAMENT)
     3.  [Finished tournaments](#FINISHED-TOURNAMENTS)
     4.  [Players list](#PLAYERS-LIST)
+    5.  [Rapport flake8](#FLAKE-8)
 3.  [Installation](#installation)
     1.  [Environnement virtuel](#environnement-virtuel)
     2.  [Requierements](#requierements)
@@ -32,7 +34,7 @@
     2.  [Bugs connus](#bugs-connus)
     3.  [Idées d'améliorations](#idees-d-ameliorations)
 
-
+AJOUTER SECTION RAPPORT FLAKE8
 
 
 ## 1. Description <a name="description"></a> ##
@@ -121,6 +123,16 @@ L'option [N] initie une succesion d'input pour renseigner les informations du jo
 
 
 
+###### RAPPORT FLAKE-8 : <a name="FLAKE-8"></a> ######
+
+Pour générer les rapports flake-8, la commande est :
+
+![command_line_flake-8](readme_png/command_line_flake-8.png)
+
+Les rapports seront générés dans le dossier ![folder_flake-8](readme_png/folder_flake-8.png) du réportoire de travail.\
+Dans lequel on trouve le fichier ![file_overview_flake-8](readme_png/file_overview_flake-8.png), qui est la table des rapports.
+
+
 
 ## 3. Installation <a name="installation"></a> ##
 
@@ -192,7 +204,8 @@ Cela installera tous les modules renseignés dans le fichier requierements.txt.
 
 
 La structure de openclassrooms_chess_club.py est basé sur le modèle MVC (Model View Controller).\
-![structure_script](readme_png/structure_script.png)
+
+![structure_project_MVC_only](readme_png/structure_project_MVC_only.png)
 
 
 - Les models, gèrent 
@@ -206,7 +219,7 @@ La structure de openclassrooms_chess_club.py est basé sur le modèle MVC (Model
 ### ii. Bugs connus <a name="bugs-connus"></a> ###
 
 
--   
+-   AJOUTER SECTION RAPPORT FLAKE8
 
     -   
     
