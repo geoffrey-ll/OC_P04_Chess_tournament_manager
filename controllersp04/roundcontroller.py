@@ -84,7 +84,8 @@ class RoundController:
         """Pour commencer un round, appariement et le reste."""
         round_name = self.model.change_status_round()
         data_participants = self.model.data_participants()
-        sorted_participants = self.model.sorting_participants(data_participants)
+        sorted_participants = \
+            self.model.sorting_participants(data_participants)
 
         if round_name == "round_1":
             subgroup_participants = self.model.subgroups(sorted_participants)
@@ -117,11 +118,10 @@ class RoundController:
         for match in matching:
             for player in match:
                 try:
-                    attr_round = round_to_update.status_participants \
-                        ["player_index_{}".format(player.index)]
-                    attr_tourn = tournament_to_update.status_participants \
-                        ["player_index_{}".format(player.index)]
-
+                    short = "player_index_{}".format(player.index)
+                    attr_round = round_to_update.status_participants[short]
+                    attr_tourn = tournament_to_update.status_participants[short
+                                                                          ]
                     attr_round["score"] = 0
                     attr_round["colors"] = player.colors[count]
                     attr_round["opponent_index"] = player.opponent_index[count]
@@ -130,10 +130,12 @@ class RoundController:
                     attr_tourn["colors"].append(player.colors[count])
                     attr_tourn["opponent_index"] \
                         .append(player.opponent_index[count])
-                except:
+                except Exception as e:
+                    osef = []
+                    osef.append(e)
                     continue
-        return self.save_round(round_to_update), \
-               self.save_tournament(tournament_to_update)
+        return (self.save_round(round_to_update),
+                self.save_tournament(tournament_to_update))
 
     def round_to_close(self, matchs_round_to_close):
         """Instruction pour la clôture du round."""

@@ -51,7 +51,9 @@ class Round:
                                           status_round,
                                           status_participants)
                 return round_in_progress
-        except:
+        except Exception as e:
+            osef = []
+            osef.append(e)
             print("No round here")
 
     def get_list_rounds(self):
@@ -116,8 +118,9 @@ class Round:
 
         data_participants = []
         for player in players_participants:
-            for key, value in status_participants\
-                    ["player_index_{}".format(player.index)].items():
+            for key, value in (status_participants
+                               ["player_index_{}".format(player.index)]
+                               .items()):
                 setattr(player, key, value)
             player.current_elo = -player.current_elo
             data_participants.append(player)
@@ -140,16 +143,20 @@ class Round:
         """
         subgroup_participants = {}
         count_group_s1 = int(arrinf(len(sorted_participants) / 2))
-        subgroup_participants["group_s1"] = sorted_participants[:count_group_s1]
-        subgroup_participants["group_s2"] = sorted_participants[count_group_s1:]
+        subgroup_participants["group_s1"] = sorted_participants[:count_group_s1
+                                                                ]
+        subgroup_participants["group_s2"] = sorted_participants[count_group_s1:
+                                                                ]
         return subgroup_participants
 
     def matching_round_1(self, subgroup_participants):
-        """Appariemnt des participants lors du premier round."""
+        """Appariements des participants lors du premier round."""
         matching = []
         for participant in range(len(subgroup_participants["group_s1"])):
-            self.assigment_color(subgroup_participants["group_s1"][participant],
-                                 subgroup_participants["group_s2"][participant])
+            self.assigment_color(
+                subgroup_participants["group_s1"][participant],
+                subgroup_participants["group_s2"][participant]
+                                 )
             self.assigment_opponent(
                 subgroup_participants["group_s1"][participant],
                 subgroup_participants["group_s2"][participant])
@@ -205,16 +212,18 @@ class Round:
             match = "no_ok"
             count_b = count_a + 1
             while match == "no_ok" and count_b < len(sorted_participants):
-                response1 = self.check_no_in_match(matching,
-                                                   sorted_participants[count_a],
-                                                   sorted_participants[count_b])
+                response1 = \
+                    self.check_no_in_match(matching,
+                                           sorted_participants[count_a],
+                                           sorted_participants[count_b])
                 if response1 == "pass":
                     match = "ok"
                 elif response1 == "continue":
-                        count_b += 1
+                    count_b += 1
                 elif response1 == "no_in_match":
-                    response2 = self.check_no_meet(sorted_participants[count_a],
-                                                   sorted_participants[count_b])
+                    response2 = \
+                        self.check_no_meet(sorted_participants[count_a],
+                                           sorted_participants[count_b])
                     if response2 == "continue":
                         count_b += 1
                     elif response2 == "no_meet":
@@ -227,16 +236,20 @@ class Round:
                         match = "ok"
             if len(matching) != arrsup(len(sorted_participants)/2):
                 if match == "no_ok" and count_b >= len(sorted_participants):
-                    self.assigment_color(sorted_participants[count_a], "exempt")
+                    self.assigment_color(sorted_participants[count_a],
+                                         "exempt")
                     self.assigment_opponent(sorted_participants[count_a],
                                             "exempt")
                     self.assigment_score_exempt(sorted_participants[count_a])
-                    matching.append((sorted_participants[count_a], "exempt"))
+                    matching.append((sorted_participants[count_a],
+                                     "exempt"))
         return matching
 
     @staticmethod
     def check_no_in_match(matching, participant_a, participant_b):
-        """Vérifie qu'un des participants n'est pas déjà affectés à un match."""
+        """
+        Vérifie qu'un des participants n'est pas déjà affectés à un match.
+        """
         if matching == []:
             return "no_in_match"
         else:
@@ -267,16 +280,20 @@ class Round:
             try:
                 idx_a = match.participant_a["index"]
                 score_a = match.participant_a["score"]
-                round_to_close.status_participants\
-                    ["player_index_{}".format(idx_a)]["score"] = score_a
-            except:
+                (round_to_close.status_participants
+                 ["player_index_{}".format(idx_a)]["score"]) = score_a
+            except Exception as e:
+                osef = []
+                osef.append(e)
                 continue
 
             try:
                 idx_b = match.participant_b["index"]
                 score_b = match.participant_b["score"]
-                round_to_close.status_participants\
-                    ["player_index_{}".format(idx_b)]["score"] = score_b
-            except:
+                (round_to_close.status_participants
+                 ["player_index_{}".format(idx_b)]["score"]) = score_b
+            except Exception as e:
+                osef = []
+                osef.append(e)
                 continue
         return self.controller.save_round(round_to_close)

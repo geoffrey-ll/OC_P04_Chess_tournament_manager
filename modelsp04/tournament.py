@@ -94,7 +94,7 @@ class Tournament:
         if input_round == '':
             return 4
         elif input_round != '':
-            if input_round.isdigit() == True:
+            if input_round.isdigit() is True:
                 return int(input_round)
             else:
                 return "true"
@@ -125,22 +125,26 @@ class Tournament:
             try:
                 idx_a = match.participant_a["index"]
                 score_a = match.participant_a["score"]
-                in_progress.status_participants \
-                    ["player_index_{}".format(idx_a)]["score"] += score_a
-            except:
+                short = "player_index_{}".format(idx_a)
+                in_progress.status_participants[short]["score"] += score_a
+            except Exception as e:
+                osef = []
+                osef.append(e)
                 continue
 
             try:
                 idx_b = match.participant_b["index"]
                 score_b = match.participant_b["score"]
-                in_progress.status_participants \
-                    ["player_index_{}".format(idx_b)]["score"] += score_b
-            except:
+                short = "player_index_{}".format(idx_b)
+                in_progress.status_participants[short]["score"] += score_b
+            except Exception as e:
+                osef = []
+                osef.append(e)
                 continue
         return self.controller.save_tournament(in_progress)
 
     def designate_winner_tournament(self):
-        tournament = self.controller.get_unserial_tournament_in_progress()
+        # tournament = self.controller.get_unserial_tournament_in_progress()
         # sorted_by_score = tournament.status_participants\
         #     .sort(key=attrgetter("score"), reverse=True)
         #
@@ -150,6 +154,7 @@ class Tournament:
 
 class TournamentFinished:
     """Le model pour les tournois terminés."""
+
     list_finished_tournaments = []
 
     def __init__(self, finished_controller, len_participants=int(),
@@ -212,11 +217,11 @@ class TournamentFinished:
         """Désérialisation du time control du tournoi."""
         time_control = []
         t_c_string = ""
-        if tournament["tournament"]["time_control"] == 0:
+        if tournament["tournament"]["time_control"] == '0':
             t_c_string = "Bullet"
-        elif tournament["tournament"]["time_control"] == 1:
+        elif tournament["tournament"]["time_control"] == '1':
             t_c_string = "Blitz"
-        elif tournament["tournament"]["time_control"] == 2:
+        elif tournament["tournament"]["time_control"] == '2':
             t_c_string = "Quick"
         time_control.append(" {:<20} |".format(t_c_string))
         for count in range(len_participants - 1):

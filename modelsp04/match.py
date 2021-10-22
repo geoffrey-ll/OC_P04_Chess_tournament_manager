@@ -126,7 +126,9 @@ class Match:
         return participant_
 
     def add_matchs(self):
-        """Pour l'enregistrement des matchs de round dans la base de données."""
+        """
+        Pour l'enregistrement des matchs de round dans la base de données.
+        """
         return self.controller.add_matchs(self.list_matchs_in_round)
 
     @staticmethod

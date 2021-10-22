@@ -30,7 +30,8 @@ class MatchView:
                   .format(' '*5,
                           "[{}] "
                           .format(
-                              re.findall("[0-9]+", list_matchs[count].name)[-1])
+                              re.findall("[0-9]+",
+                                         list_matchs[count].name)[-1])
                           + list_matchs[count].name[:5].capitalize()
                           + ' '
                           + list_matchs[count].name[6:],
@@ -57,14 +58,18 @@ class MatchView:
                               ' '*20,
                               list_matchs[count+1].participant_a["last_name"]
                               + ' '
-                              + list_matchs[count+1].participant_a["first_name"]
+                              + list_matchs[count+1].participant_a["first_name"
+                                                                   ]
                               + "  [G]",
                               "[D]  "
                               + list_matchs[count+1].participant_b["last_name"]
                               + ' '
-                              + list_matchs[count+1].participant_b["first_name"]
+                              + list_matchs[count+1].participant_b["first_name"
+                                                                   ]
                               ))
-            except:
+            except Exception as e:
+                osef = []
+                osef.append(e)
                 print("{0}| {1:<31}[N]{2:>32} |{3}| {4:<33}{5:>33} |"
                       .format(' '*5,
                               list_matchs[count].participant_a["last_name"]
@@ -78,7 +83,8 @@ class MatchView:
                               ' '*20,
                               list_matchs[count+1].participant_a["last_name"]
                               + ' '
-                              + list_matchs[count+1].participant_a["first_name"],
+                              + list_matchs[count+1].participant_a["first_name"
+                                                                   ],
                               list_matchs[count+1].participant_b["exempt"]
                               ))
 
@@ -99,7 +105,9 @@ class MatchView:
                               + str(- list_matchs[count+1]
                                     .participant_b["current_elo"])
                               ))
-            except:
+            except Exception as e:
+                osef = []
+                osef.append(e)
                 print("{0}| {1:<33}{2:>33} |{3}| {4:<66} |"
                       .format(' ' * 5,
                               str(- list_matchs[count]
@@ -125,9 +133,12 @@ class MatchView:
                               str(list_matchs[count+1].participant_a["score"])
                               + "  (Score)",
                               "(Score)  "
-                              + str(list_matchs[count+1].participant_b["score"])
+                              + str(list_matchs[count+1].participant_b["score"]
+                                    )
                               ))
-            except:
+            except Exception as e:
+                osef = []
+                osef.append(e)
                 print("{0}| {1:<33}{2:>33} |{3}| {4:<66} |"
                       .format(' ' * 5,
                               str(list_matchs[count].participant_a["score"])
@@ -145,20 +156,26 @@ class MatchView:
                               str(list_matchs[count].participant_a["colors"])
                               + "  (Color)",
                               "(Color)  "
-                              + str(list_matchs[count].participant_b["colors"]),
+                              + str(
+                                  list_matchs[count].participant_b["colors"]),
                               ' '*20,
                               str(list_matchs[count+1].participant_a["colors"])
                               + "  (Color)",
                               "(Color)  "
-                              + str(list_matchs[count+1].participant_b["colors"])
+                              + str(
+                                  list_matchs[count+1].participant_b["colors"]
+                                    )
                               ))
-            except:
+            except Exception as e:
+                osef = []
+                osef.append(e)
                 print("{0}| {1:<33}{2:>33} |{3}| {4:<66} |"
                       .format(' ' * 5,
                               str(list_matchs[count].participant_a["colors"])
                               + "  (Color)",
                               "(Color)  "
-                              + str(list_matchs[count].participant_b["colors"]),
+                              + str(
+                                  list_matchs[count].participant_b["colors"]),
                               ' ' * 20,
                               str(list_matchs[count+1].participant_a["colors"])
                               + "  (Color)",
@@ -179,7 +196,8 @@ class MatchView:
             print("{0}|{1:^68}|"
                   .format(' '*5,
                           "[{}] ".format(
-                              re.findall("[0-9]+", list_matchs[count].name)[-1])
+                              re.findall("[0-9]+",
+                                         list_matchs[count].name)[-1])
                           + list_matchs[count].name[:5].capitalize()
                           + ' '
                           + list_matchs[count].name[6:]
@@ -197,7 +215,9 @@ class MatchView:
                               + ' '
                               + list_matchs[count].participant_b["first_name"]
                               ))
-            except:
+            except Exception as e:
+                osef = []
+                osef.append(e)
                 print("{0}| {1:<33}{2:>33} |"
                       .format(' '*5,
                               list_matchs[count].participant_a["last_name"]
@@ -216,7 +236,9 @@ class MatchView:
                               + str(- list_matchs[count]
                                     .participant_b["current_elo"])
                               ))
-            except:
+            except Exception as e:
+                osef = []
+                osef.append(e)
                 print("{0}| {1:<66} |"
                       .format(' '*5,
                               str(- list_matchs[count]
@@ -232,7 +254,9 @@ class MatchView:
                               "(Score)  "
                               + str(list_matchs[count].participant_b["score"])
                               ))
-            except:
+            except Exception as e:
+                osef = []
+                osef.append(e)
                 print("{0}| {1:<66} |"
                       .format(' '*5,
                               str(list_matchs[count].participant_a["score"])
@@ -247,14 +271,17 @@ class MatchView:
                               "(Color)  "
                               + str(list_matchs[count].participant_b["colors"])
                               ))
-            except:
+            except Exception as e:
+                osef = []
+                osef.append(e)
                 print("{0}| {1:<66} |"
                       .format(' '*5,
                               str(list_matchs[count].participant_a["colors"])
                               + "  (Color)"
                               ))
 
-            print("{0}|{1:^68}|".format(' '*5, list_matchs[count].status_match))
+            print("{0}|{1:^68}|".format(' '*5,
+                                        list_matchs[count].status_match))
             print("{0}{1}".format(' '*5, '_'*70))
             count += 1
 
@@ -279,11 +306,13 @@ class MatchView:
             selected_match = \
                 self.controller.check_input_number_match(user_input)
             if selected_match == "match_no_exist":
-                return self.display_view_matchs_in_progress_round(invalide=True)
+                return \
+                    self.display_view_matchs_in_progress_round(invalide=True)
             if selected_match != []:
                 return self.display_designate_winner(selected_match)
             else:
-                return self.display_view_matchs_in_progress_round(invalide=True)
+                return \
+                    self.display_view_matchs_in_progress_round(invalide=True)
         elif user_input == "R":
             return self.controller.display_view_home_page()
         elif user_input == "C":

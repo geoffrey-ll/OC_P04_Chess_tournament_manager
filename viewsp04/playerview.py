@@ -57,7 +57,7 @@ class PlayerView:
         self.display_headers()
         list_players = self.controller.sort_players(sorting_option)
 
-        if list_players is []:
+        if list_players == []:
             pass
         else:
             for player in list_players:
@@ -119,7 +119,9 @@ class PlayerView:
             return self.input_gender()
 
     def input_current_elo(self, invalide="false"):
-        """Demande à l'utilisateur, le classement elo du joueur à enregistré."""
+        """
+        Demande à l'utilisateur, le classement elo du joueur à enregistré.
+        """
         if invalide == "false":
             input_current_elo = input("Current Elo : ")
             return self.controller.check_current_elo(input_current_elo)

@@ -7,7 +7,6 @@ message_for_commit.txt
 db.json
 database_player_gmi.json
 *.json
-flake-report
 readme_png
 
 # Created by https://www.toptal.com/developers/gitignore/api/pycharm,visualstudio,python,macos,linux,windows

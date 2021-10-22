@@ -28,8 +28,8 @@ class MatchController:
     def get_unserial_matchs_current_round(self):
         """Demande la désérialisation des matchs du round en corus."""
         matchs_current_round_in_db = self.controller.get_matchs_current_round()
-        return \
-            self.model.unserial_matchs_current_round(matchs_current_round_in_db)
+        return (self.model
+                .unserial_matchs_current_round(matchs_current_round_in_db))
 
     def display_view_home_page(self):
         """Demande la vue de la page d'accueil."""
@@ -40,7 +40,9 @@ class MatchController:
         return self.view.display_view_matchs_in_progress_round()
 
     def add_matchs(self, list_matchs_in_round):
-        """Pour l'enregistrement des matchs du round dans la base de données."""
+        """
+        Pour l'enregistrement des matchs du round dans la base de données.
+        """
         return self.controller.add_matchs(list_matchs_in_round)
 
     def initialize_matchs(self, matchs_in_round):

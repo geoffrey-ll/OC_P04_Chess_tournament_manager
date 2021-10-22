@@ -227,7 +227,7 @@ class MasterController:
 
     def closing_tournament(self):
         """Instruction pour clôturer le tournoi en cours."""
-        winner = self.tournament_controller.designate_winner_tournament()
+        # winner = self.tournament_controller.designate_winner_tournament()
         self.data_base_controller.transfer_tournament_to_finished()
         self.data_base_controller.purge_tournament_in_progress()
         # self.tournament_controller.display_winner_tournament(winner)

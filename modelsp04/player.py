@@ -42,8 +42,8 @@ class Player:
 
     def add_player(self, input_new_player):
         """
-        Créer un nouveau joueur à partir des inputs, puis envoi les données pour
-        son insertion dans la base de données.
+        Créer un nouveau joueur à partir des inputs, puis envoi les données
+        pour son insertion dans la base de données.
         """
         index = self.controller.get_len_players_in_db() + 1
         first_name = input_new_player[0]

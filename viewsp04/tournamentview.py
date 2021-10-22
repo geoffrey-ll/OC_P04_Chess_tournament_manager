@@ -101,7 +101,9 @@ class StartTournamentView(TournamentView):
             return self.input_round()
 
     def input_time_control(self, invalide="false"):
-        """Demande à l'utilisateur le genre de match (durée) du tournoi à créer."""
+        """
+        Demande à l'utilisateur le genre de match (durée) du tournoi à créer.
+        """
         if invalide == "false":
             input_time_control = input(self.display_time_control())
             return self.controller.check_time_control(input_time_control)

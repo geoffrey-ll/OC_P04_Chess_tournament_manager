@@ -103,11 +103,13 @@ class DataBase:
         matchs_current_round = []
         for match in self.matchs_tournament:
             try:
-                if match["name"] == \
-                        re.findall("match_{}.+".format(number_current_round),
-                                   match["name"])[0]:
+                if match["name"] == re.findall(
+                        "match_{}.+".format(number_current_round),
+                        match["name"])[0]:
                     matchs_current_round.append(match)
-            except:
+            except Exception as e:
+                osef = []
+                osef.append(e)
                 continue
         if matchs_current_round != []:
             return matchs_current_round
@@ -123,11 +125,16 @@ class DataBase:
         return dico_tournament[0]["status_participants"]
 
     def get_players_participants(self):
-        """Remarque : dans la base de données, les scores elo sont stockés comme entier négatifs."""
-        index_participants = self.get_index_participants() # utiliser get_status_participants juste au-dessus !!!!!!!!!!!!!!!!!
+        """
+        Renvoi les donnése des joueurs participants au tournoi.
+        Remarque : dans la base de données, les scores elo sont stockés comme
+        entier négatifs.
+        """
+        index_participants = self.get_index_participants()
         players_participants = []
         for idx in index_participants:
-            players_participants.append(self.player.search(Query().index == int(idx))[0])
+            players_participants\
+                .append(self.player.search(Query().index == int(idx))[0])
         return players_participants
         pass
 
@@ -163,12 +170,12 @@ class DataBase:
         for indexx in index_to_check:
             if self.player.search(Query().index == int(indexx)):
                 participants_validate["player_index_{}".format(indexx)] = {}
-                participants_validate["player_index_{}".format(indexx)]\
-                    ["score"] = 0
-                participants_validate["player_index_{}".format(indexx)]\
-                    ["colors"] = []
-                participants_validate["player_index_{}".format(indexx)]\
-                    ["opponent_index"] = []
+                (participants_validate["player_index_{}".format(indexx)]
+                 ["score"]) = 0
+                (participants_validate["player_index_{}".format(indexx)]
+                 ["colors"]) = []
+                (participants_validate["player_index_{}".format(indexx)]
+                 ["opponent_index"]) = []
         if len(participants_validate) == len(index_to_check):
             return participants_validate
         else:
@@ -215,7 +222,9 @@ class DataBase:
                                 dic[key][subkey] = -data
                             else:
                                 dic[key][subkey] = data
-                    except:
+                    except Exception as e:
+                        osef = []
+                        osef.append(e)
                         continue
                 else:
                     dic[key] = value
@@ -240,7 +249,8 @@ class DataBase:
         update = {}
         for key, value in tournament_to_update.__dict__.items():
             update[key] = value
-        self.tournament_in_progress.update(update, where("name") == update["name"])
+        self.tournament_in_progress.update(update,
+                                           where("name") == update["name"])
 
     def transfer_tournament_to_finished(self):
         """
