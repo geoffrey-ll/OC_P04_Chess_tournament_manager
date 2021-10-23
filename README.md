@@ -185,7 +185,7 @@ Cela installera tous les modules renseignés dans le fichier requierements.txt.
  
 ### i. Packages <a name="packages"></a> ###
 
-La structure de openclassrooms_chess_club.py est basé sur le modèle MVC (Model View Controller).\
+La structure de openclassrooms_chess_club.py est basé sur le modèle MVC (Model View Controller).
 
 ![structure_project_MVC_only](readme_png/structure_project_MVC_only.png)
 
