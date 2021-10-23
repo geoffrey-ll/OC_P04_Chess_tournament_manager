@@ -19,7 +19,8 @@
     2.  [Start a tournament](#START-A-TOURNAMENT)
     3.  [Finished tournaments](#FINISHED-TOURNAMENTS)
     4.  [Players list](#PLAYERS-LIST)
-    5.  [Rapport flake8](#FLAKE-8)
+    5.  [Tournament in progress](#TOURNAMENT-IN-PROGRESS)
+    6.  [Rapport flake8](#FLAKE-8)
 3.  [Installation](#installation)
     1.  [Environnement virtuel](#environnement-virtuel)
     2.  [Requierements](#requierements)
@@ -56,17 +57,17 @@ Pour lancer le script, la ligne de commande est :
 
 ![command_line_start_script](readme_png/command_line_start_script.png)
 
-
+ 
 ###### PAGE D'ACCUEIL : <a name="PAGE-D-ACCUEIL"></a> ######
 
 ![view_home_page](readme_png/view_home_page.png)
 
-0. Création d'un nouveau tournoi.
+0. Création d'un nouveau tournoi (ou gestion du tournoi si un en cours ![view_home_page_only_option_tournament_in_progress](readme_png/view_home_page_only_option_tournament_in_progress.png))
 1. Affichage des données des tournois terminés.
 2. Affichage et enregistrement des joueurs en base de données.
 3. Quitter le script.
 
-
+ 
 ###### START A TOURNAMENT : <a name="START-A-TOURNAMENT"></a> ######
 
 **Attention :**
@@ -74,18 +75,19 @@ Pour lancer le script, la ligne de commande est :
 
 ![view_all_input_new_tournament](readme_png/view_all_input_new_tournament.png)
 
+\
 Succession d'inputs pour renseigner les paramètres du tournoi.\
 Les paramètres avec une valeur, sont ceux qui ont une valeur par défaut.\
 Utiliser la touche entrée pour conserver la valeur par défaut.
 
-
+ 
 ###### FINISHED TOURNAMENTS : <a name="FINISHED-TOURNAMENTS"></a> ######
 
 Voici un affichage avec tournois terminés dans la base de données :
 
 ![view_finished_tournaments_(x2)](readme_png/view_finished_tournaments_(x2).png)
 
-
+ 
 ###### PLAYERS LIST : <a name="PLAYERS-LIST"></a> ######
 
 Voici un affichage avec quelques joueurs dans la base de données :
@@ -100,7 +102,26 @@ L'option [N] initie une succesion d'inputs pour renseigner les informations du j
 
 ![view_all_input_new_player](readme_png/view_all_input_new_player.png)
 
+ 
+###### TOURNAMENT IN PROGRESS : <a name="TOURNAMENT-IN-PROGRESS"></a> ######
 
+![view_tournament_manager_option_selection_match_(x2matchs)](readme_png/view_tournament_manager_option_selection_match_(x2matchs).png)
+
+\
+Durant un tournoi, la seule chose à faire est de désigner les vainqueurs des matchs.\
+Pour cela, il suffit d'entrer le numéro d'un match (les numéros de match sont indiqués en première ligne).\
+Puis de désigner le vainqueur.
+
+\
+![view_tournament_manager_option_selection_winner](readme_png/view_tournament_manager_option_selection_winner.png)
+
+L'option pour clôturer le round sera disponible lorsque tous les matchs du round seront finis.
+
+![view_tournament_manager_option_close_a_round](readme_png/view_tournament_manager_option_close_a_round.png)
+
+Laissant place au round suivant.
+
+ 
 ###### RAPPORT FLAKE-8 : <a name="FLAKE-8"></a> ######
 
 Pour générer les rapports flake-8, la commande est :
@@ -169,47 +190,16 @@ La structure de openclassrooms_chess_club.py est basé sur le modèle MVC (Model
 ![structure_project_MVC_only](readme_png/structure_project_MVC_only.png)
 
 
-- Les odels, gèrent les transformations.
+- Les models, gèrent les transformations.
 - Les views, gèrent les affichages et les inputs utilisateurs.
 - Les controllers, coordonnent les différentes méthodes et fichiers. Permettent la liason entre les views et les models.
 
 
-
-
-
 ### ii. Bugs connus <a name="bugs-connus"></a> ###
-
-
--   AJOUTER SECTION RAPPORT FLAKE8
-
-    -   
-    
-        ![bug_option_input_espace_before_next_category](readme_jpg/bug_option_input_espace_before_next_category.jpg)
-    
-    -   
-    
-        ![bug_option_input_no_dash_before_firt_category](readme_jpg/bug_option_input_no_dash_before_first_category.jpg)
-
--   
-
-Si vous trouvez un bug, merci de (ne pas) me le signaler sur l'adresse\
-openclassrooms_chess_club@support.com
-
-
+      
+Si vous trouvez un bug, merci de me le signaler sur l'adresse\
+gl_openclassrooms@laposte.net
 
 
 ### iii. Idées d'amélioration <a name="idees-d-ameliorations"></a> ###
-
-
-
-- 
-
-
-- 
-
-
-- 
-
-
-- 
 
