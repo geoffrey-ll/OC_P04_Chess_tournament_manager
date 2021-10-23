@@ -27,9 +27,9 @@
 4.  [À propos](#a-propos)
     1.  [Packages](#packages)
     2.  [Bugs connus](#bugs-connus)
-    3.  [Idées d'améliorations](#idees-d-ameliorations)
+    3.  [Améliorations futures](#améliorations-futures)
 
-
+ 
 ## 1. Description <a name="description"></a> ##
 
     Ce script à été réalisé dans le cadre d'un projet du parcours
@@ -46,7 +46,7 @@ OpenClassrooms_chess_club.py est un gestionnaire (simplifié) de tournoi d'éche
 Le script s'utilise via une interface terminal.\
 La base de données est en format .json.
 
-
+ 
 ## 2. Utilisation <a name="utilisation"></a> ##
 
 **Attention :**
@@ -131,7 +131,7 @@ Pour générer les rapports flake-8, la commande est :
 Les rapports seront générés dans le dossier ![folder_flake-8](readme_png/folder_flake-8.png) du réportoire de travail.\
 Dans lequel on trouve le fichier ![file_overview_flake-8](readme_png/file_overview_flake-8.png), qui est la table des rapports.
 
-
+ 
 ## 3. Installation <a name="installation"></a> ##
 
 **Remarque**
@@ -141,7 +141,7 @@ Dans les sous-sections suivantes, les lignes de commande sont exécutée depuis 
 Les différents fichiers du script s'y trouvent.\
 Pour utiliser les lignes de commandes, il faut que votre répertoire de travail, soit, celui où se trouvent les différents fichiers du script.
 
-
+ 
 ### i. Environnement virtuel <a name="environnement-virtuel"></a> ###
 
 Sous Linux, avec l'IDE PyCharm.
@@ -170,7 +170,7 @@ Cela créra un environement virtuel nommé 'env'
 ![command_line_activate_env_win](readme_png/command_line_activate_env_win.png)
 
 
-
+ 
 ### ii. Requierements <a name="requierements"></a> ###
 
 Une fois l'environnement virtuel activé, lancer la commande suivante :
@@ -180,9 +180,9 @@ Une fois l'environnement virtuel activé, lancer la commande suivante :
 Cela installera tous les modules renseignés dans le fichier requierements.txt.
 
 
-
+ 
 ## 4. À propos <a name="a-propos"></a> ###
-
+ 
 ### i. Packages <a name="packages"></a> ###
 
 La structure de openclassrooms_chess_club.py est basé sur le modèle MVC (Model View Controller).\
@@ -194,12 +194,19 @@ La structure de openclassrooms_chess_club.py est basé sur le modèle MVC (Model
 - Les views, gèrent les affichages et les inputs utilisateurs.
 - Les controllers, coordonnent les différentes méthodes et fichiers. Permettent la liason entre les views et les models.
 
-
+ 
 ### ii. Bugs connus <a name="bugs-connus"></a> ###
+
+- Le script se termine si l'on essai de désigner un vainqueur à un match exempté (match avec un joueur sans adversaire).
+N'entraine pas d'erreur sur le tournoi en question. Relancer le script est suffissant pour revenir à la gestion du tournoi.
       
 Si vous trouvez un bug, merci de me le signaler sur l'adresse\
 gl_openclassrooms@laposte.net
 
+ 
+### iii. Amélioration futures <a name="améliorations-futures"></a> ###
 
-### iii. Idées d'amélioration <a name="idees-d-ameliorations"></a> ###
-
+- Mise en évidence des vainqueurs de toursnois.
+- Horodage des tournois/rounds/matchs.
+- Mise à jour (simplifié) du score Elo des joueurs après victoire/nul/défaite d'un match. Respectivement +7/+0/-7.
+- Afficher les détails d'un tournoi terminés (détails des matchs etc.).
